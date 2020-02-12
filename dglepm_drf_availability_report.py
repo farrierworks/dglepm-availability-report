@@ -41,23 +41,25 @@ def dict_str_to_int(dict):
 
 
 # initialize variables with command line arguments or with defaults
-if len(sys.argv) == 7:
+if len(sys.argv) == 8:
     datestr1 = sys.argv[1]
-    vor_tactical_mpo_disposition_for_ps_filename = sys.argv[2]
+    vor_tactical_mpo_disposition_filename = sys.argv[2]
     ie36_filename = sys.argv[3]
     zeiw29_filename = sys.argv[4]
-    mb25_filename = sys.argv[5]
+    vor_tactical_mpo_maintenance_status_filename = sys.argv[5]
     mb25_filename = sys.argv[6]
+    mb25_filename = sys.argv[7]
 elif len(sys.argv) == 1:
     datestr1 = datetime.now().strftime('%y%m%d')
-    vor_tactical_mpo_disposition_for_ps_filename = '/home/matthew/Desktop/dglepm_drf_availability_report/infiles/vor_tactical_mpo_disposition_for_ps.xlsx'
+    vor_tactical_mpo_disposition_filename = '/home/matthew/Desktop/dglepm_drf_availability_report/infiles/vor_tactical_mpo_disposition.xlsx'
     ie36_filename = '/home/matthew/Desktop/dglepm_drf_availability_report/infiles/ie36.xlsx'
     zeiw29_filename = '/home/matthew/Desktop/dglepm_drf_availability_report/infiles/zeiw29.xlsx'
+    vor_tactical_mpo_maintenance_status_filename = '/home/matthew/Desktop/dglepm_drf_availability_report/infiles/vor_tactical_mpo_maintenance_status.xlsx'
     mb25_filename = '/home/matthew/Desktop/dglepm_drf_availability_report/infiles/mb25.xlsx'
     mb52_filename = '/home/matthew/Desktop/dglepm_drf_availability_report/infiles/mb52.xlsx'
     print("Using default input filenames and today's date.")
 else:
-    raise Exception("Expected 6 arguments.")
+    raise Exception("Expected 7 arguments.")
 
 # initialize second date string variable
 datetime_object = datetime.strptime(datestr1, '%y%m%d')
@@ -69,9 +71,10 @@ if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
 # read input files
-vor_tactical_mpo_disposition_for_ps = pd.read_excel(vor_tactical_mpo_disposition_for_ps_filename, sheet_name='Sheet1')
+vor_tactical_mpo_disposition = pd.read_excel(vor_tactical_mpo_disposition_filename, sheet_name='Sheet1')
 ie36 = pd.read_excel(ie36_filename, sheet_name='Sheet1')
 zeiw29 = pd.read_excel(zeiw29_filename, sheet_name='Sheet1')
+vor_tactical_mpo_maintenance_status = pd.read_excel(vor_tactical_mpo_maintenance_status_filename, sheet_name='Sheet1')
 mb25 = pd.read_excel(mb25_filename, sheet_name='Sheet1')
 mb52 = pd.read_excel(mb52_filename, sheet_name='Sheet1')
 
@@ -87,10 +90,9 @@ availability_target_dict = dict_from_csv('/home/matthew/PycharmProjects/dglepm_d
 availability_target_dict = dict_str_to_float(availability_target_dict)
 
 # select relevant columns and rename them
-# TODO
-vor_tactical_mpo_disposition_for_ps = vor_tactical_mpo_disposition_for_ps[['Equipment Number', 'Equip. Object Type', 'Maintenance plant', \
+vor_tactical_mpo_disposition = vor_tactical_mpo_disposition[['Equipment Number', 'Equip. Object Type', 'Maintenance plant', \
                                            'User & Info Statuses']]
-vor_tactical_mpo_disposition_for_ps.columns = ['equipment_number', 'equipment_object_type', 'maintenance_plant1', 'user_info_statuses']
+vor_tactical_mpo_disposition.columns = ['equipment_number', 'equipment_object_type', 'maintenance_plant1', 'user_info_statuses']
 
 ie36 = ie36[['Equipment', 'Description', 'Vehicle Type', 'Allocation Code']]
 ie36.columns = ['equipment_number', 'description', 'equipment_object_type', 'allocation_code']
@@ -98,8 +100,8 @@ ie36.columns = ['equipment_number', 'description', 'equipment_object_type', 'all
 zeiw29 = zeiw29[['Equipment', 'Notification']]
 zeiw29.columns = ['equipment_number', 'notification']
 
-vor_tactical_mpo_disposition_for_ps = vor_tactical_mpo_disposition_for_ps[['Highest-Level Equipm', 'Equip Object Type', 'PM Order']]
-vor_tactical_mpo_disposition_for_ps.columns = ['equipment_number', 'object_type_key', 'pm_order_number']
+vor_tactical_mpo_maintenance_status = vor_tactical_mpo_maintenance_status[['Highest-Level Equipm', 'PM Order']]
+vor_tactical_mpo_maintenance_status.columns = ['equipment_number', 'pm_order_number']
 
 mb25 = mb25[['Order', 'Material', 'Material Description']]
 mb25.columns = ['pm_order_number', 'material_number', 'material_description']
@@ -111,35 +113,46 @@ mb52 = mb52[mb52['sum_of_quantity' == 0]]
 mb52 = mb52.drop_duplicates(subset='material_number').reset_index(drop=True)
 
 # merge dataframes, removing duplicate rows due to multiple notifications being open against a single piece of eqpt
-df1 = pd.merge(vor_tactical_report, ie36, left_on=['equipment_number', 'equipment_object_type'], \
+df1 = pd.merge(vor_tactical_mpo_disposition, ie36, left_on=['equipment_number', 'equipment_object_type'], \
                right_on=['equipment_number', 'equipment_object_type'], how='left')
 df1 = pd.merge(df1, zeiw29.drop_duplicates(subset=['equipment_number']), left_on='equipment_number', \
                right_on='equipment_number', how='left')
 
+df2 = pd.merge(vor_tactical_mpo_maintenance_status, mb25, left_on='pm_order_number', right_on='pm_order_number', how='left')
+df2 = pd.merge(df2, mb52, left_on='material_number', right_on='material_number', how='left')
+df2['quantity'].replace('', np.nan, inplace=True)
+df2.dropna(subset=['quantity'], inplace=True)
+# TODO
+# are the next 2 lines of code necessary?
+df2 = df2.drop_duplicates(subset=['equipment_numnber', 'material_number'])
+df2 = df2.reset_index(drop=True)
+
+df3 = pd.merge(df1, df2, left_on='equipment_number', right_on='equipment_number', how='left')
+
 # create 'disposal_status' column containing inferred disposal status
-df1['service_status'] = 'In Service'
-df1.loc[(df1['allocation_code'].str.contains('M')) | \
-        (df1['description'].str.contains('HARD TARGET')) | \
-        (df1['user_info_statuses'].str.contains('|'.join(disposal_user_status_code_list))), 'service_status'] = \
+df3['service_status'] = 'In Service'
+df3.loc[(df3['allocation_code'].str.contains('M')) | \
+        (df3['description'].str.contains('HARD TARGET')) | \
+        (df3['user_info_statuses'].str.contains('|'.join(disposal_user_status_code_list))), 'service_status'] = \
     'Disposal'
 
 # map weapon system IDs, NP & DRF key fleets and platforms to equipment object types
-df1['weapon_system_id'] = df1['equipment_object_type'].map(weapon_system_id_dict)
-df1['np_drf_key_fleet'] = df1['equipment_object_type'].map(np_drf_key_fleet_dict)
-df1['platform'] = df1['equipment_object_type'].map(platform_dict)
-df1['maintenance_plant2'] = df1['maintenance_plant1'].apply(str).map(maintenance_plant_dict)
+df3['weapon_system_id'] = df3['equipment_object_type'].map(weapon_system_id_dict)
+df3['np_drf_key_fleet'] = df3['equipment_object_type'].map(np_drf_key_fleet_dict)
+df3['platform'] = df3['equipment_object_type'].map(platform_dict)
+df3['maintenance_plant2'] = df3['maintenance_plant1'].apply(str).map(maintenance_plant_dict)
 
 # create 'disposition' column containing plant if eqpt is in service and disposal status otherwise
-df1['disposition'] = df1['maintenance_plant2']
-df1.loc[(df1['notification'] > 0), 'disposition'] = '202 WD'
-df1.loc[(df1['service_status'] == 'Disposal'), 'disposition'] = 'Disposal'
+df3['disposition'] = df3['maintenance_plant2']
+df3.loc[(df3['notification'] > 0), 'disposition'] = '202 WD'
+df3.loc[(df1['service_status'] == 'Disposal'), 'disposition'] = 'Disposal'
 
 # group by weapon system ID, NP & DRF key fleet, platform and disposition, and calculate quantities
-df2 = pd.DataFrame({'quantity': df1.groupby(['weapon_system_id', 'np_drf_key_fleet', 'platform', \
+df4 = pd.DataFrame({'quantity': df3.groupby(['weapon_system_id', 'np_drf_key_fleet', 'platform', \
                                              'disposition']).size()}).reset_index()
 
 # create pivot table and rename columns
-table1 = pd.pivot_table(df2, values='quantity', index=['weapon_system_id', 'np_drf_key_fleet', 'platform'], \
+table1 = pd.pivot_table(df4, values='quantity', index=['weapon_system_id', 'np_drf_key_fleet', 'platform'], \
                         columns=['disposition'], fill_value=0).reset_index()
 table1.columns = ['weapon_system_id', 'np_drf_key_fleet', 'platform', '202_wd', 'adm_mat', 'ca', 'cjoc', \
                   'disposal', 'mpc', 'rcaf', 'rcn', 'vcds']
@@ -181,6 +194,6 @@ table1.loc['Average'] = column_averages
 filename2 = output_dir + '/%s_availability_report_dglepm.xlsx' % datestr1
 writer = pd.ExcelWriter(filename2, engine='xlsxwriter')
 table1.to_excel(writer, sheet_name='Sheet1', startrow=3, index=False)
-df1.to_excel(writer, sheet_name='Sheet2', index=False)
+df3.to_excel(writer, sheet_name='Sheet2', index=False)
 table2.to_excel(writer, sheet_name='Sheet3', index=False)
 writer.save()
