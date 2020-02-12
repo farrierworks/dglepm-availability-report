@@ -41,53 +41,74 @@ def dict_str_to_int(dict):
 
 
 # initialize variables with command line arguments or with defaults
-if len(sys.argv) == 5:
+if len(sys.argv) == 7:
     datestr1 = sys.argv[1]
-    vor_tactical_report_filename = sys.argv[2]
+    vor_tactical_mpo_disposition_for_ps_filename = sys.argv[2]
     ie36_filename = sys.argv[3]
     zeiw29_filename = sys.argv[4]
+    mb25_filename = sys.argv[5]
+    mb25_filename = sys.argv[6]
 elif len(sys.argv) == 1:
     datestr1 = datetime.now().strftime('%y%m%d')
-    vor_tactical_report_filename = '/home/matthew/Desktop/vor_tactical_mpo_disposition_for_ps.xlsx'
-    ie36_filename = '/home/matthew/Desktop/ie36.xlsx'
-    zeiw29_filename = '/home/matthew/Desktop/zeiw29.xlsx'
+    vor_tactical_mpo_disposition_for_ps_filename = '/home/matthew/Desktop/dglepm_drf_availability_report/infiles/vor_tactical_mpo_disposition_for_ps.xlsx'
+    ie36_filename = '/home/matthew/Desktop/dglepm_drf_availability_report/infiles/ie36.xlsx'
+    zeiw29_filename = '/home/matthew/Desktop/dglepm_drf_availability_report/infiles/zeiw29.xlsx'
+    mb25_filename = '/home/matthew/Desktop/dglepm_drf_availability_report/infiles/mb25.xlsx'
+    mb52_filename = '/home/matthew/Desktop/dglepm_drf_availability_report/infiles/mb52.xlsx'
     print("Using default input filenames and today's date.")
 else:
-    raise Exception("Expected 4 arguments.")
+    raise Exception("Expected 6 arguments.")
 
 # initialize second date string variable
 datetime_object = datetime.strptime(datestr1, '%y%m%d')
 datestr2 = datetime_object.strftime('%d %b %y')
 
 # create output directory for input and output files
-output_dir = '/home/matthew/Desktop/test4/%s' % datestr1
+output_dir = '/home/matthew/Desktop/dglepm_drf_availability_report/outfiles/%s' % datestr1
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
 # read input files
-vor_tactical_report = pd.read_excel(vor_tactical_report_filename, sheet_name='Sheet1')
+vor_tactical_mpo_disposition_for_ps = pd.read_excel(vor_tactical_mpo_disposition_for_ps_filename, sheet_name='Sheet1')
 ie36 = pd.read_excel(ie36_filename, sheet_name='Sheet1')
 zeiw29 = pd.read_excel(zeiw29_filename, sheet_name='Sheet1')
+mb25 = pd.read_excel(mb25_filename, sheet_name='Sheet1')
+mb52 = pd.read_excel(mb52_filename, sheet_name='Sheet1')
 
 # initialize list of disposal user status codes
-disposal_user_status_code_list = list_from_csv('/home/matthew/Desktop/test4/disposal_user_status_code_list.csv')
+disposal_user_status_code_list = list_from_csv('/home/matthew/PycharmProjects/dglepm_drf_availability_report/misc/disposal_user_status_code_list.csv')
 
 # initialize various dictionaries
-weapon_system_id_dict = dict_from_csv('/home/matthew/Desktop/test4/weapon_system_id_dict.csv')
-np_drf_key_fleet_dict = dict_from_csv('/home/matthew/Desktop/test4/np_drf_key_fleet_dict.csv')
-platform_dict = dict_from_csv('/home/matthew/Desktop/test4/platform_dict.csv')
-maintenance_plant_dict = dict_from_csv('/home/matthew/Desktop/test4/maintenance_plant_dict.csv')
-availability_target_dict = dict_from_csv('/home/matthew/Desktop/test4/availability_target_dict.csv')
+weapon_system_id_dict = dict_from_csv('/home/matthew/PycharmProjects/dglepm_drf_availability_report/misc/weapon_system_id_dict.csv')
+np_drf_key_fleet_dict = dict_from_csv('/home/matthew/PycharmProjects/dglepm_drf_availability_report/misc/np_drf_key_fleet_dict.csv')
+platform_dict = dict_from_csv('/home/matthew/PycharmProjects/dglepm_drf_availability_report/misc/platform_dict.csv')
+maintenance_plant_dict = dict_from_csv('/home/matthew/PycharmProjects/dglepm_drf_availability_report/misc/maintenance_plant_dict.csv')
+availability_target_dict = dict_from_csv('/home/matthew/PycharmProjects/dglepm_drf_availability_report/misc/availability_target_dict.csv')
 availability_target_dict = dict_str_to_float(availability_target_dict)
 
 # select relevant columns and rename them
-vor_tactical_report = vor_tactical_report[['Equipment Number', 'Equip. Object Type', 'Maintenance plant', \
+# TODO
+vor_tactical_mpo_disposition_for_ps = vor_tactical_mpo_disposition_for_ps[['Equipment Number', 'Equip. Object Type', 'Maintenance plant', \
                                            'User & Info Statuses']]
-vor_tactical_report.columns = ['equipment_number', 'equipment_object_type', 'maintenance_plant1', 'user_info_statuses']
+vor_tactical_mpo_disposition_for_ps.columns = ['equipment_number', 'equipment_object_type', 'maintenance_plant1', 'user_info_statuses']
+
 ie36 = ie36[['Equipment', 'Description', 'Vehicle Type', 'Allocation Code']]
 ie36.columns = ['equipment_number', 'description', 'equipment_object_type', 'allocation_code']
+
 zeiw29 = zeiw29[['Equipment', 'Notification']]
 zeiw29.columns = ['equipment_number', 'notification']
+
+vor_tactical_mpo_disposition_for_ps = vor_tactical_mpo_disposition_for_ps[['Highest-Level Equipm', 'Equip Object Type', 'PM Order']]
+vor_tactical_mpo_disposition_for_ps.columns = ['equipment_number', 'object_type_key', 'pm_order_number']
+
+mb25 = mb25[['Order', 'Material', 'Material Description']]
+mb25.columns = ['pm_order_number', 'material_number', 'material_description']
+
+mb52 = mb52[['External Long Material Number', 'Unrestructed']]
+mb52.columns = ['material_number', 'quantity']
+mb52['sum_of_quantity'] = mb52.groupby(['material_number'])['quantity'].transform(sum)
+mb52 = mb52[mb52['sum_of_quantity' == 0]]
+mb52 = mb52.drop_duplicates(subset='material_number').reset_index(drop=True)
 
 # merge dataframes, removing duplicate rows due to multiple notifications being open against a single piece of eqpt
 df1 = pd.merge(vor_tactical_report, ie36, left_on=['equipment_number', 'equipment_object_type'], \
