@@ -2,6 +2,37 @@
 
 ## Description
 
+The DGLEPM Availability Report is produced quarterly (or on demand), primarily in support of the equipment availability metric in the Defence Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of the Division (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops), etc.) - the demand for data products has increased over the past 10 months.
+
+The Report includes 19 DRF "key" fleets:
+* Leo 2 AEV
+* Leo 2 ARV
+* Leo 2 MBT
+* LAV II Bison
+* LAV II Coyote
+* LAV III
+* LAV 6.0
+* M113A2
+* M113A3
+* M577A3
+* TLAV MT
+* M777
+* AHSVS
+* HLVW
+* LSVW
+* LUVW SMP
+* MLVW
+* MSVS SMP
+
+In the context of DRF, equipment is said to be "unavailable" if it's:
+1. grounded due to Land Materiel Assurance issues;
+2. grounded awaiting zero-stock nationally-procured/centrally-managed repair parts; or
+3. at 202 WD or industry for 3rd/4th line repairs.
+
+The Report production process was automated by Capt Southcott, DLEPS 3 (with input from Capt Yogendran, DLEPS 6), using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
+
+To produce the report, follow the steps below.
+
 ## Steps
 
 1. Connect your USB drive to your DWAN computer.
