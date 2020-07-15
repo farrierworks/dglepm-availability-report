@@ -1,5 +1,9 @@
 # DGLEPM Availability Report
 
+![GitHub repo size](https://img.shields.io/github/repo-size/farrierworks/dglepm_drf_availability_report)
+![GitHub top language](https://img.shields.io/github/languages/top/farrierworks/dglepm_drf_availability_report)
+![GitHub last commit](https://img.shields.io/github/last-commit/farrierworks/dglepm_drf_availability_report)
+
 ## Description
 
 The DGLEPM Availability Report is produced quarterly (or on demand), primarily in support of the equipment availability metric in the Defence Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of the Division (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops), etc.). The demand for data products has increased over the past 10 months.
