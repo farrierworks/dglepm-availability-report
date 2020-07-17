@@ -73,7 +73,7 @@ To produce the report, follow the steps below.
             * In the `Display Options` tab:
                 * Uncheck `Suppress Repeated Key Values`
 
-5. Select all of the table headings and rows, copy and paste into a new Excel file, and save the file to your USB drive as `vor_tactical_mpo_disposition.xlsx`.
+5. Select all of the table headings and rows, copy and paste into a new Excel file, and save it to your USB drive as `vor_tactical_mpo_disposition.xlsx`.
 
 6. Disconnect your USB drive from your DWAN computer and connect it to your standalone computer (e.g. Dell XPS 13).
 
