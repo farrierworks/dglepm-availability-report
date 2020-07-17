@@ -6,7 +6,7 @@
 
 ## Description
 
-The DGLEPM Availability Report is produced quarterly (or on demand), primarily in support of the equipment availability metric in the Defence Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of the Division (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops), etc.). The demand for data products has increased over the past 10 months.
+The DGLEPM Availability Report is produced quarterly (or on demand), primarily in support of the equipment availability metric in the Defence Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of the Division (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops), etc.). DGLEPM Ops has observed an increase in demand for data products within ADM (Mat) and the CA over the past 10 months.
 
 The Report includes 19 DRF "key" fleets:
 * Leo 2 AEV
@@ -29,9 +29,9 @@ The Report includes 19 DRF "key" fleets:
 * MSVS SMP
 
 In the context of DRF, equipment is said to be "unavailable" if it's:
-1. Grounded due to Land Materiel Assurance issues
-2. Grounded awaiting zero-stock nationally-procured/centrally-managed repair parts
-3. At 202 WD or industry for 3rd/4th line repairs
+1. Grounded due to Land Materiel Assurance issues (DGLEPM Ops should know this intuitively due to its involvement in the LMA process)
+2. Grounded awaiting zero-stock nationally-procured/centrally-managed repair parts (an imperfect process was devised by Capt Southcott and the DRMIS PM SME (DLEPS 6) to find this by running a number of transactions in sequence)
+3. At 202 WD or industry for 3rd/4th line repairs (found by looking at open notifications in Plant 0001, 202 WD)
 
 The Report production process was automated by Capt Southcott, DLEPS 3 (with input from Capt Yogendran, DLEPS 6), using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
 
