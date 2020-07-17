@@ -65,8 +65,15 @@ To produce the report, follow the steps below.
         * Force Element Hierarchy: `[3663] Minister of National Defence` and `[REST_H] Not Assigned Force Element`
         * Equip. Object Type: `EV0309`, `EV0B54`, `EV0B68`, `EV0B80`, `EV0B82`, `EV0B94`, `EV0B97`, `EV0J06`, `EV0J07`, `EV0J08`, `EV0J31`, `EV0J35`, `EV0J36`, `EV0J37`, `EV0J38`, `EV0J44`, `EV0J46`, `EV0J81`, `EV0J82` and `EV0J83`
         * Master Equip Index: `X`
+        * Once the transaction finishes running, right click on any table heading (e.g. `Equipment Number`), and click `Query Properties`:
+            * In the `Navigational State` tab:
+                * In the `Columns` field, right click on `Key Figures` and click `Select Filter Value`. Move all but `Qty Held` from `Chosen Selections` to `Displayed Key Figures` (select each and click the left arrow icon)
+                * In the `Rows` field, move all but `Equip. Object Type` to `Free Characteristics` (select each and click the right arrow icon)
+                * In the `Free Characteristics` field, move `Equipment Number`, `Maintenance plant` and `User & Info Statuses` to `Rows` (select each and click the left arrow icon)
+            * In the `Display Options` tab:
+                * Uncheck `Suppress Repeated Key Values`
 
-5. Export the results to Excel, and save the file to your USB drive as `vor_tactical_mpo_disposition.xlsx`.
+5. Select all of the table headings and rows, copy and paste into a new Excel file, and save the file to your USB drive as `vor_tactical_mpo_disposition.xlsx`.
 
 6. Disconnect your USB drive from your DWAN computer and connect it to your standalone computer (e.g. Dell XPS 13).
 
