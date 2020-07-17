@@ -67,12 +67,19 @@ To produce the report, follow the steps below.
 
 5. Export the results to Excel, and save the file to your USB drive as `vor_tactical_mpo_disposition.xlsx`.
 
-6. Disconnect your USB drive from your DWAN computer and connect it to your standalone computer (Dell XPS 13).
+6. Disconnect your USB drive from your DWAN computer and connect it to your standalone computer (e.g. Dell XPS 13).
 
-7. Copy and paste the 3 files from your USB drive to the following directory: `/home/{user}/Desktop/dglepm_drf_availability_report/infiles/`.
+7. On your standalone computer, if they don't already exist, create the following directories (folders):
+  * `/home/{user}/Desktop/dglepm-availability-report`
+  * `/home/{user}/Desktop/dglepm-availability-report/infiles`
+  * `/home/{user}/Desktop/dglepm-availability-report/outfiles`
+  
+8. If you haven't already, clone the code repository from GitHub to your standalone computer. Copy the URL to the project `.git` file by clicking the "Code" button, followed by the "Clipboard" icon. Open Terminal (or Git Bash), navigate to the PycharmProjects directory (`/home/{user}/PycharmProjects/`), type `git clone `, paste the copied URL and press Enter. You should now have a local copy of the repository.
 
-8. Open PyCharm, select the `dglepm_drf_availability_report` project, and click the green "Run" button in the top right-hand corner.
+8. Copy and paste the 3 files from your USB drive to the following directory: `/home/{user}/Desktop/dglepm-availability-report/infiles/`.
 
-9. Wait until the program finishes executing (approximately 10 seconds), and navigate to the following directory: `/home/{user}/Desktop/dglepm_drf_availability_report/outfiles/`.
+9. Open PyCharm and select the `dglepm-availability-report` project. In `dglepmAvailabilityReport.py`, change the `user` variable (line 8) to your standalone computer username. Click the green "Run" button in the top right-hand corner.
+
+10. Wait until the program finishes executing (approximately 10 seconds), and navigate to the following directory: `/home/{user}/Desktop/dglepm-availability-report/outfiles/`.
 
 10. Copy and paste the report file to your USB drive.
