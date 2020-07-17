@@ -60,8 +60,8 @@ To produce the report, follow the steps below.
 
 4. In DRMIS BEx Analyzer (DRMIS BW Production), run the following transactions with the specified parameters:
  
-    * **"\[ZPM_0EQUIPMENT_7028_Q01\] VOR Tactical - MPO Disposition"**
-        * Force Element Hierarchy: `\[3663\] Minister of National Defence` and `\[REST_H\] Not Assaigned Force Element`
+    * **"[ZPM_0EQUIPMENT_7028_Q01] VOR Tactical - MPO Disposition"**
+        * Force Element Hierarchy: `[3663] Minister of National Defence` and `[REST_H] Not Assaigned Force Element`
         * Equip. Object Type: `EV0309`, `EV0B54`, `EV0B68`, `EV0B80`, `EV0B82`, `EV0B94`, `EV0B97`, `EV0J06`, `EV0J07`, `EV0J08`, `EV0J31`, `EV0J35`, `EV0J36`, `EV0J37`, `EV0J38`, `EV0J44`, `EV0J46`, `EV0J81`, `EV0J82` and `EV0J83`
         * Master Equip Index: `X`
 
