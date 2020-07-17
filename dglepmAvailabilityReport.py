@@ -242,7 +242,7 @@ worksheet1.set_column('T:T', 16, integer_fmt)
 # worksheet1.conditional_format('P3:R20', {'type': 'no_blanks', 'format': bg_color_grey_fmt})
 # worksheet1.conditional_format('U3:U20', {'type': 'no_blanks', 'format': bg_color_grey_fmt})
 # worksheet1.conditional_format('A21:V22', {'type': 'no_blanks', 'format': bg_color_grey_fmt})
-worksheet1.conditional_format('A2:T24', {'type': 'no_blanks', 'format': all_borders_fmt})
+worksheet1.conditional_format('A3:T24', {'type': 'no_blanks', 'format': all_borders_fmt})
 worksheet1.conditional_format('I1:N1', {'type': 'no_blanks', 'format': all_borders_fmt})
 worksheet1.conditional_format('Q1:R1', {'type': 'no_blanks', 'format': all_borders_fmt})
 # worksheet1.conditional_format('A5:B20', {'type': 'no_blanks', 'format': bold_align_center_fmt})
@@ -322,16 +322,12 @@ worksheet1.write(29, 0, '[5] Calculated as: Planned Availability * In Service.',
 worksheet1.write(30, 0, '[6] Eqpt that is held by a FG/FE L1, regardless of serviceability.', font_size_8_fmt)
 worksheet1.write(31, 0, '[7] Calculated as: CA + RCAF + RCN + CJOC + VCDS + MPC.', font_size_8_fmt)
 worksheet1.write(32, 0, '[8] Calculated as: 100 * Total Available / In Service.', font_size_8_fmt)
-worksheet1.write(33, 0, '[9] Eqpt that is held by ADM (Mat), is undergoing 3rd/4th line maintenance at 202 WD or \
-industry, or is held by DRDC for testing. Includes eqpt with outstanding or in process notifications under Planning \
-Plant 0001 (202 WD).', font_size_8_fmt)
-worksheet1.write(34, 0, '[10] Calculated as: ADM (Mat) + 202 WD + DRDC.', font_size_8_fmt)
+worksheet1.write(33, 0, '[9] Eqpt that is held by ADM (Mat), or is undergoing 3rd/4th line maintenance at 202 WD or \
+industry. Includes eqpt with outstanding or in process notifications under Planning Plant 0001 (202 WD).', font_size_8_fmt)
+worksheet1.write(34, 0, '[10] Calculated as: ADM (Mat) + 202 WD.', font_size_8_fmt)
 worksheet1.write(35, 0, '[11] Calculated as: 100 * Total Unavailable / In Service.', font_size_8_fmt)
-worksheet1.write(36, 0, '[12] Eqpt with incomplete DRMIS records (i.e. Plant field is blank). May include \
-newly-fielded eqpt or eqpt undergoing EMO.', font_size_8_fmt)
-worksheet1.write(37, 0, '[13] Calculated as: 100 * No FE Assigned / In Service.', font_size_8_fmt)
-worksheet1.write(38, 0, 'Caveats:', underline_and_font_size_8_fmt)
-worksheet1.write(39, 0, '1. Does not yet account for eqpt that is unavailable due to lack of furnished spares. Working \
+worksheet1.write(36, 0, 'Caveats:', underline_and_font_size_8_fmt)
+worksheet1.write(37, 0, '1. Does not yet account for eqpt that is unavailable due to lack of furnished spares. Working \
 on devising methodology.', font_size_8_fmt)
 # worksheet1.conditional_format('A39:M39', {'type': 'no_blanks', 'format': top_border_fmt})
 # worksheet1.conditional_format('A41:M41', {'type': 'no_blanks', 'format': bottom_border_fmt})
