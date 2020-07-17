@@ -36,7 +36,7 @@ In the context of DRF, equipment is said to be "unavailable" if it's:
 3. At 202 WD or industry for 3rd/4th line repairs
    * Found by looking at open notifications in Plant 0001 (202 WD)
 
-The Report production process was significantly shortened/simplified by Capt Southcott, DLEPS 3 (with input from Capt Yogendran, DLEPS 6), using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
+The report production process was significantly shortened/simplified by Capt Southcott, DLEPS 3 (with input from Capt Yogendran, DLEPS 6), using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
 
 To produce the report, follow the steps below.
 
@@ -70,9 +70,9 @@ To produce the report, follow the steps below.
 6. Disconnect your USB drive from your DWAN computer and connect it to your standalone computer (e.g. Dell XPS 13).
 
 7. On your standalone computer, create the following directories (folders):
-  * `/home/{user}/Desktop/dglepm-availability-report`
-  * `/home/{user}/Desktop/dglepm-availability-report/infiles`
-  * `/home/{user}/Desktop/dglepm-availability-report/outfiles`
+    * `/home/{user}/Desktop/dglepm-availability-report`
+    * `/home/{user}/Desktop/dglepm-availability-report/infiles`
+    * `/home/{user}/Desktop/dglepm-availability-report/outfiles`
   
 8. Clone the repository from GitHub to your standalone computer. Copy the URL to the `.git` file by clicking the "Code" button, followed by the "Clipboard" icon. Open Terminal (or Git Bash), navigate to the PycharmProjects directory (`/home/{user}/PycharmProjects/`), type `git clone ` (include a trailing space), paste the copied URL and press the `Enter` key. You should now have a local copy of the repository.
 
