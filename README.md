@@ -30,11 +30,11 @@ The Report includes 19 DRF "key" fleets:
 
 In the context of DRF, equipment is said to be "unavailable" if it's:
 1. Grounded due to Land Materiel Assurance issues
-* DGLEPM Ops should know this intuitively due to its proximity to the LMA process
+   * DGLEPM Ops should know this intuitively due to its proximity to the LMA process
 2. Grounded awaiting zero-stock nationally-procured/centrally-managed repair parts
-* An imperfect process was devised by Capt Southcott and the DRMIS PM SME (DLEPS 6) to find this by running a number of transactions in sequence
+   * An imperfect process was devised by Capt Southcott and the DRMIS PM SME (DLEPS 6) to find this by running a number of transactions in sequence (the process needs to be further refined)
 3. At 202 WD or industry for 3rd/4th line repairs
-* Found by looking at open notifications in Plant 0001, 202 WD
+   * Found by looking at open notifications in Plant 0001 (202 WD)
 
 The Report production process was automated by Capt Southcott, DLEPS 3 (with input from Capt Yogendran, DLEPS 6), using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
 
