@@ -44,7 +44,7 @@ To produce the report, follow the steps below.
 
 1. Connect your USB drive to your DWAN computer.
 
-2. In DRMIS production, run the following transactions with the specified parameters:
+2. In DRMIS Production, run the following transactions with the specified parameters:
 
     * **"IE 36 - Display Vehicles"**
         * Class Type: `002`
