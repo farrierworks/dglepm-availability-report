@@ -91,3 +91,9 @@ To produce the report, follow the steps below.
 11. Wait until the program finishes executing (approximately 10 seconds), and navigate to the following directory: `/home/{user}/Desktop/dglepm-availability-report/outfiles/`.
 
 12. Copy and paste the report file to your USB drive.
+
+## Useful Links
+
+1. **DND 2018-19 Departmental Results Report**: https://www.canada.ca/content/dam/dnd-mdn/documents/departmental-results-report/2018-19-drr/english/DRR-2018-19_DND_English.pdf
+2. **GC Infobase**: https://www.tbs-sct.gc.ca/ems-sgd/edb-bdd/index-eng.html#start
+3. **GC Infobase Equipment Availability Single Indicator Details**: https://www.tbs-sct.gc.ca/ems-sgd/edb-bdd/index-eng.html#indicator/PROGRAM-dr18-5936
