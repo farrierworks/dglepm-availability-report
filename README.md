@@ -47,31 +47,31 @@ To produce the report, follow the steps below.
 2. In DRMIS Production, run the following transactions with the specified parameters:
 
     * **"IE 36 - Display Vehicles"**
-        * Class Type: `002`
-        * Class: `VEH_EQUIP`
-        * Vehicle Type: `EV0309`, `EV0B54`, `EV0B68`, `EV0B80`, `EV0B82`, `EV0B94`, `EV0B97`, `EV0J06`, `EV0J07`, `EV0J08`, `EV0J31`, `EV0J35`, `EV0J36`, `EV0J37`, `EV0J38`, `EV0J44`, `EV0J46`, `EV0J81`, `EV0J82` and `EV0J83`
-        * Once the transaction finishes running (may take several minutes), select all of the records, and click Settings, followed by Show/Hide Classification
+        * _Class Type_: `002`
+        * _Class_: `VEH_EQUIP`
+        * _Vehicle Type_: `EV0309`, `EV0B54`, `EV0B68`, `EV0B80`, `EV0B82`, `EV0B94`, `EV0B97`, `EV0J06`, `EV0J07`, `EV0J08`, `EV0J31`, `EV0J35`, `EV0J36`, `EV0J37`, `EV0J38`, `EV0J44`, `EV0J46`, `EV0J81`, `EV0J82` and `EV0J83`
+        * Once the transaction finishes running (may take several minutes), select all of the records, and click _Settings_, followed by _Show/Hide Classification_
 
     * **"ZEIW29 - List Edit Display Notification (UDF)"**
-        * Notification status: `Outstanding`, `Postponed` and `In process`
-        * Planning plant: `0001`
-        * Once the transaction finishes running, add the `Equipment` column
+        * _Notification status_: `Outstanding`, `Postponed` and `In process`
+        * _Planning plant_: `0001`
+        * Once the transaction finishes running, add the _Equipment_ column
  
 3. Export the results to Excel, and save the files to your USB drive as `ie36.xlsx` and `zeiw29.xlsx`, respectively.
 
 4. In DRMIS BEx Analyzer (DRMIS BW Production), run the following transactions with the specified parameters:
  
     * **"[ZPM_0EQUIPMENT_7028_Q01] VOR Tactical - MPO Disposition"**
-        * Force Element Hierarchy: `[3663] Minister of National Defence` and `[REST_H] Not Assigned Force Element`
-        * Equip. Object Type: `EV0309`, `EV0B54`, `EV0B68`, `EV0B80`, `EV0B82`, `EV0B94`, `EV0B97`, `EV0J06`, `EV0J07`, `EV0J08`, `EV0J31`, `EV0J35`, `EV0J36`, `EV0J37`, `EV0J38`, `EV0J44`, `EV0J46`, `EV0J81`, `EV0J82` and `EV0J83`
-        * Master Equip Index: `X`
-        * Once the transaction finishes running, right click on any table heading (e.g. Equipment Number), and click Query Properties:
-            * In the Navigational State tab:
-                * In the Columns field, right click on Key Figures and click Select Filter Value. Move all but `Qty Held` from Chosen Selections to Displayed Key Figures (select each and click the left arrow icon)
-                * In the Rows field, move all but `Equip. Object Type` to Free Characteristics (select each and click the right arrow icon)
-                * In the Free Characteristics field, move `Equipment Number`, `Maintenance plant` and `User & Info Statuses` to Rows (select each and click the left arrow icon)
-            * In the Display Options tab:
-                * Uncheck `Suppress Repeated Key Values`
+        * _Force Element Hierarchy_: `[3663] Minister of National Defence` and `[REST_H] Not Assigned Force Element`
+        * _Equip. Object Type_: `EV0309`, `EV0B54`, `EV0B68`, `EV0B80`, `EV0B82`, `EV0B94`, `EV0B97`, `EV0J06`, `EV0J07`, `EV0J08`, `EV0J31`, `EV0J35`, `EV0J36`, `EV0J37`, `EV0J38`, `EV0J44`, `EV0J46`, `EV0J81`, `EV0J82` and `EV0J83`
+        * _Master Equip Index_: `X`
+        * Once the transaction finishes running, right click on any table heading (e.g. _Equipment Number_), and click _Query Properties_:
+            * In the _Navigational State_ tab:
+                * In the _Columns field_, right click on _Key Figures_ and click _Select Filter Value_. Move all but `Qty Held` from _Chosen Selections_ to _Displayed Key Figures_ (select each and click the left arrow icon)
+                * In the _Rows_ field, move all but `Equip. Object Type` to _Free Characteristics_ (select each and click the right arrow icon)
+                * In the _Free Characteristics_ field, move `Equipment Number`, `Maintenance plant` and `User & Info Statuses` to _Rows_ (select each and click the left arrow icon)
+            * In the _Display Options_ tab:
+                * Uncheck _Suppress Repeated Key Values_
 
 5. Select all of the table headings and rows, copy and paste into a new Excel file, and save it to your USB drive as `vor_tactical_mpo_disposition.xlsx`.
 
@@ -82,7 +82,7 @@ To produce the report, follow the steps below.
     * `/home/{user}/Desktop/dglepm-availability-report/infiles`
     * `/home/{user}/Desktop/dglepm-availability-report/outfiles`
   
-8. Clone the repository from GitHub to your standalone computer. Copy the URL to the `.git` file by clicking the "Code" button, followed by the "Clipboard" icon. Open Terminal (or Git Bash), navigate to the PycharmProjects directory (`/home/{user}/PycharmProjects/`), type `git clone ` (include a trailing space), paste the copied URL and press the `Enter` key. You should now have a local copy of the repository.
+8. Clone the repository from GitHub to your standalone computer. Copy the URL to the `.git` file by clicking the _Code_ button, followed by the _Clipboard_ icon. Open Terminal (or Git Bash), navigate to the PycharmProjects directory (`/home/{user}/PycharmProjects/`), type `git clone ` (include a trailing space), paste the copied URL and press the _Enter_ key. You should now have a local copy of the repository.
 
 9. Copy and paste the 3 files from your USB drive to the following directory: `/home/{user}/Desktop/dglepm-availability-report/infiles/`.
 
