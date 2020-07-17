@@ -248,9 +248,6 @@ worksheet1.conditional_format('Q1:R1', {'type': 'no_blanks', 'format': all_borde
 # worksheet1.conditional_format('A5:B20', {'type': 'no_blanks', 'format': bold_align_center_fmt})
 worksheet1.write(0, 0, 'DGLEPM Availability Report', bold_fmt)
 worksheet1.write(1, 0, 'As of %s' % datestr2)
-
-# TODO: Not working
-worksheet1.conditional_format('O3', {'type': 'cell', 'criteria': '<', 'value': '$G$3', 'format': red_fmt})
 worksheet1.conditional_format('O4', {'type': 'cell', 'criteria': '<', 'value': '$G$4', 'format': red_fmt})
 worksheet1.conditional_format('O5', {'type': 'cell', 'criteria': '<', 'value': '$G$5', 'format': red_fmt})
 worksheet1.conditional_format('O6', {'type': 'cell', 'criteria': '<', 'value': '$G$6', 'format': red_fmt})
@@ -271,7 +268,6 @@ worksheet1.conditional_format('O20', {'type': 'cell', 'criteria': '<', 'value': 
 worksheet1.conditional_format('O21', {'type': 'cell', 'criteria': '<', 'value': '$G$21', 'format': red_fmt})
 worksheet1.conditional_format('O22', {'type': 'cell', 'criteria': '<', 'value': '$G$22', 'format': red_fmt})
 worksheet1.conditional_format('O24', {'type': 'cell', 'criteria': '<', 'value': '$G$24', 'format': red_fmt})
-worksheet1.conditional_format('P3', {'type': 'cell', 'criteria': '<', 'value': '$H$3', 'format': red_fmt})
 worksheet1.conditional_format('P4', {'type': 'cell', 'criteria': '<', 'value': '$H$4', 'format': red_fmt})
 worksheet1.conditional_format('P5', {'type': 'cell', 'criteria': '<', 'value': '$H$5', 'format': red_fmt})
 worksheet1.conditional_format('P6', {'type': 'cell', 'criteria': '<', 'value': '$H$6', 'format': red_fmt})
