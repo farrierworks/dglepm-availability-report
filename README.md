@@ -50,7 +50,7 @@ To produce the report, follow the steps below.
         * Class Type: `002`
         * Class: `VEH_EQUIP`
         * Vehicle Type: `EV0309`, `EV0B54`, `EV0B68`, `EV0B80`, `EV0B82`, `EV0B94`, `EV0B97`, `EV0J06`, `EV0J07`, `EV0J08`, `EV0J31`, `EV0J35`, `EV0J36`, `EV0J37`, `EV0J38`, `EV0J44`, `EV0J46`, `EV0J81`, `EV0J82` and `EV0J83`
-        * Once the transaction finishes running (may take several minutes), select all of the records, and click `Settings`, followed by `Show/Hide Classification`
+        * Once the transaction finishes running (may take several minutes), select all of the records, and click Settings, followed by Show/Hide Classification
 
     * **"ZEIW29 - List Edit Display Notification (UDF)"**
         * Notification status: `Outstanding`, `Postponed` and `In process`
