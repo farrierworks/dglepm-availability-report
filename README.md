@@ -36,7 +36,7 @@ In the context of DRF, equipment is said to be "unavailable" if it's:
 3. At 202 WD or industry for 3rd/4th line repairs
    * Found by looking at open notifications in Plant 0001 (202 WD)
 
-The Report production process was automated by Capt Southcott, DLEPS 3 (with input from Capt Yogendran, DLEPS 6), using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
+The Report production process was significantly shortened/simplified by Capt Southcott, DLEPS 3 (with input from Capt Yogendran, DLEPS 6), using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
 
 To produce the report, follow the steps below.
 
