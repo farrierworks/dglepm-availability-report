@@ -32,7 +32,7 @@ In the context of DRF, equipment is said to be "unavailable" if it's:
 1. Grounded due to Land Materiel Assurance (LMA) issues
    * DGLEPM Ops should know this intuitively due to its proximity to the LMA process
 2. Grounded awaiting zero-stock nationally-procured/centrally-managed repair parts
-   * An imperfect process was devised by Capt Southcott and the DRMIS PM SME (DLEPS 6) to find this by running a number of transactions in sequence (the process needs to be further refined)
+   * An imperfect process was devised by Capt Southcott and the DRMIS PM SME, DLEPS 6, to find this by running a number of transactions in sequence (the process needs to be further refined)
 3. At 202 WD or industry for 3rd/4th line repairs
    * Found by looking at open notifications in Plant 0001 (202 WD)
 
