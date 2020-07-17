@@ -67,7 +67,7 @@ To produce the report, follow the steps below.
         * _Master Equip Index_: `X`
         * Once the transaction finishes running, right click on any table heading (e.g. _Equipment Number_), and click _Query Properties_:
             * In the _Navigational State_ tab:
-                * In the _Columns field_, right click on _Key Figures_ and click _Select Filter Value_. Move all but `Qty Held` from _Chosen Selections_ to _Displayed Key Figures_ (select each and click the left arrow icon)
+                * In the _Columns_ field, right click on _Key Figures_ and click _Select Filter Value_. Move all but `Qty Held` from _Chosen Selections_ to _Displayed Key Figures_ (select each and click the left arrow icon)
                 * In the _Rows_ field, move all but `Equip. Object Type` to _Free Characteristics_ (select each and click the right arrow icon)
                 * In the _Free Characteristics_ field, move `Equipment Number`, `Maintenance plant` and `User & Info Statuses` to _Rows_ (select each and click the left arrow icon)
             * In the _Display Options_ tab:
