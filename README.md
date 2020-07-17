@@ -6,7 +6,7 @@
 
 ## Description
 
-The DGLEPM Availability Report is produced quarterly (or on demand), primarily in support of the equipment availability metric in the Defence Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of the Division (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops)) - over the past 11 months, DGLEPM Ops has observed an increase in demand for data products within ADM (Mat) and the CA.
+The DGLEPM Availability Report is produced quarterly (or on demand), primarily in support of the equipment availability metric in the Defence Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of the Division (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops)) - over the past 11 months, DGLEPM Ops has witnessed an increase in demand for data products within ADM (Mat) and the CA.
 
 The report includes 19 DRF "key" fleets:
 * Leo 2 AEV
@@ -29,7 +29,7 @@ The report includes 19 DRF "key" fleets:
 * MSVS SMP
 
 In the context of DRF, equipment is said to be "unavailable" if it's:
-1. Grounded due to Land Materiel Assurance (LMA) issues
+1. Grounded due to LMA issues
    * DGLEPM Ops should know this intuitively due to its proximity to the LMA process
 2. Grounded awaiting zero-stock nationally-procured/centrally-managed repair parts
    * An imperfect process was devised by Capt Southcott and the DRMIS PM SME, DLEPS 6, to find this by running a number of transactions in sequence (the process needs to be further refined)
