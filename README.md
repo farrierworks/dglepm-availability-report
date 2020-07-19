@@ -8,25 +8,25 @@
 
 The DGLEPM Availability Report is produced quarterly (or on demand), primarily in support of the equipment availability metric in the Defence Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of the Division (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops)) - over the past 11 months, DGLEPM Ops has witnessed an increase in demand for data products within ADM (Mat) and the CA.
 
-The report includes 19 DRF "key" fleets:
-* Leo 2 AEV
-* Leo 2 ARV
-* Leo 2 MBT
-* LAV II Bison
-* LAV II Coyote
-* LAV III
-* LAV 6.0
-* M113A2
-* M113A3
-* M577A3
-* TLAV MT
-* M777
-* AHSVS
-* HLVW
-* LSVW
-* LUVW SMP
-* MLVW
-* MSVS SMP
+The report includes 18 DRF "key" fleets:
+1. Leo 2 AEV
+2. Leo 2 ARV
+3. Leo 2 MBT
+4. LAV II Bison
+5. LAV II Coyote
+6. LAV III
+7. LAV 6.0
+8. M113A2
+9. M113A3
+10. M577A3
+11. TLAV MT
+12. M777
+13. AHSVS
+14. HLVW
+15. LSVW
+16. LUVW SMP
+17. MLVW
+18. MSVS SMP
 
 In the context of DRF, equipment is said to be "unavailable" if it's:
 1. Grounded due to LMA issues
