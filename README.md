@@ -36,7 +36,7 @@ In the context of DRF, equipment is said to be "unavailable" if it's:
 3. At 202 WD or industry for 3rd/4th line repairs
    * Found by looking at open notifications in Plant 0001 (202 WD)
 
-The report production process was significantly shortened/simplified by Capt Southcott, DLEPS 3 (with input from Capt Yogendran, DLEPS 6), using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
+The report production process was significantly shortened/simplified by Capt Southcott, DLEPS 3, (with input from Capt Yogendran, DLEPS 6) using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
 
 To produce the report, follow the steps below.
 
@@ -86,7 +86,7 @@ To produce the report, follow the steps below.
 
 9. Copy and paste the 3 files from your USB drive to the following directory: `/home/{user}/Desktop/dglepm-availability-report/infiles/`.
 
-10. Open PyCharm and select the `dglepm-availability-report` project. In `dglepmAvailabilityReport.py`, change the `user` variable (line 8) to your standalone computer username. Click the green "Run" button in the top right-hand corner.
+10. Open PyCharm and select the `dglepm-availability-report` project. In `dglepmAvailabilityReport.py`, change the `user` variable (line 8) to your standalone computer username (e.g. `matthew`). Click the green _Run_ button in the top right-hand corner.
 
 11. Wait until the program finishes executing (approximately 10 seconds), and navigate to the following directory: `/home/{user}/Desktop/dglepm-availability-report/outfiles/`.
 
