@@ -11,9 +11,10 @@ panelTitle <- function(sideBarWidth) {
 
 panelSelectInput <- function(buttonWidth) {
   wellPanel(
-    fileInput("bex", "Upload BeX file in csv format"),
-    fileInput("IE36", "Upload IE36 file in csv format"),
-    fileInput("Depot", "Upload Depot file in csv format"),
+    fileInput("bex_file", "Upload BeX file in csv format"),
+    fileInput("IE36_file", "Upload IE36 file in csv format"),
+    fileInput("depot_file", "Upload Depot file in csv format"),
+    checkboxGroupInput("userStatus","Select disposal user status", ""),
     actionButton("create_pivot_table", "Create Report"),
     actionButton("plot_availability", "Plot Availability"),
     downloadButton("download_pivot", label = "Download Pivot Table"),
@@ -28,7 +29,7 @@ pivot_table <- function() {
     h4("Availability Report"),
     box(
       width =  12,
-      infoBoxOutput("table")
+      dataTableOutput("table")
     )
   )
 }
