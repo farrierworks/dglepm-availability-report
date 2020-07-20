@@ -94,6 +94,7 @@ To produce the report, follow the steps below.
 
 ## Useful Links
 
-1. **DND 2018-19 Departmental Results Report**: https://www.canada.ca/content/dam/dnd-mdn/documents/departmental-results-report/2018-19-drr/english/DRR-2018-19_DND_English.pdf
+1. **DND Departmental Results Report**: https://www.canada.ca/en/department-national-defence/corporate/reports-publications/departmental-results-report.html
+1. **DND 2018-19 Departmental Results Report (most recent)**: https://www.canada.ca/content/dam/dnd-mdn/documents/departmental-results-report/2018-19-drr/english/DRR-2018-19_DND_English.pdf
 2. **GC Infobase**: https://www.tbs-sct.gc.ca/ems-sgd/edb-bdd/index-eng.html#start
 3. **GC Infobase Equipment Availability Single Indicator Details**: https://www.tbs-sct.gc.ca/ems-sgd/edb-bdd/index-eng.html#indicator/PROGRAM-dr18-5936
