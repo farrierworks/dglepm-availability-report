@@ -3,6 +3,7 @@ import sys
 from datetime import datetime
 import os
 import pandas as pd
+import numpy as np
 # import seaborn as sns
 
 user = 'matthew'
@@ -47,17 +48,17 @@ if len(sys.argv) == 8:
     vor_tactical_mpo_disposition_filename = sys.argv[2]
     ie36_filename = sys.argv[3]
     zeiw29_filename = sys.argv[4]
-    # vor_tactical_mpo_maintenance_status_filename = sys.argv[5]
-    # mb25_filename = sys.argv[6]
-    # mb25_filename = sys.argv[7]
+    vor_tactical_mpo_maintenance_status_filename = sys.argv[5]
+    mb25_filename = sys.argv[6]
+    mb25_filename = sys.argv[7]
 elif len(sys.argv) == 1:
     datestr1 = datetime.now().strftime('%y%m%d')
     vor_tactical_mpo_disposition_filename = '/home/%s/Desktop/dglepm-availability-report/infiles/vor_tactical_mpo_disposition.xlsx' % user
     ie36_filename = '/home/%s/Desktop/dglepm-availability-report/infiles/ie36.xlsx' % user
     zeiw29_filename = '/home/%s/Desktop/dglepm-availability-report/infiles/zeiw29.xlsx' % user
-    # vor_tactical_mpo_maintenance_status_filename = '/home/%s/Desktop/dglepm-availability-report/infiles/vor_tactical_mpo_maintenance_status.xlsx' % user
-    # mb25_filename = '/home/%s/Desktop/dglepm-availability-report/infiles/mb25.xlsx' % user
-    # mb52_filename = '/home/%s/Desktop/dglepm-availability-report/infiles/mb52.xlsx' % user
+    vor_tactical_mpo_maintenance_status_filename = '/home/%s/Desktop/dglepm-availability-report/infiles/vor_tactical_mpo_maintenance_status.xlsx' % user
+    mb25_filename = '/home/%s/Desktop/dglepm-availability-report/infiles/mb25.XLSX' % user
+    mb52_filename = '/home/%s/Desktop/dglepm-availability-report/infiles/mb52.XLSX' % user
     print("Using default input filenames and today's date.")
 else:
     raise Exception("Expected 7 arguments.")
@@ -75,9 +76,9 @@ if not os.path.exists(output_dir):
 vor_tactical_mpo_disposition = pd.read_excel(vor_tactical_mpo_disposition_filename, sheet_name='Sheet1')
 ie36 = pd.read_excel(ie36_filename, sheet_name='Sheet1')
 zeiw29 = pd.read_excel(zeiw29_filename, sheet_name='Sheet1')
-# vor_tactical_mpo_maintenance_status = pd.read_excel(vor_tactical_mpo_maintenance_status_filename, sheet_name='Sheet1')
-# mb25 = pd.read_excel(mb25_filename, sheet_name='Sheet1')
-# mb52 = pd.read_excel(mb52_filename, sheet_name='Sheet1')
+vor_tactical_mpo_maintenance_status = pd.read_excel(vor_tactical_mpo_maintenance_status_filename, sheet_name='Sheet1')
+mb25 = pd.read_excel(mb25_filename, sheet_name='Sheet1')
+mb52 = pd.read_excel(mb52_filename, sheet_name='Sheet1')
 
 # initialize list of disposal user status codes
 disposal_user_status_code_list = list_from_csv('/home/matthew/PycharmProjects/dglepm-availability-report/misc/disposal_user_status_code_list.csv')
@@ -101,17 +102,17 @@ ie36.columns = ['equipment_number', 'description', 'equipment_object_type', 'all
 zeiw29 = zeiw29[['Equipment', 'Notification']]
 zeiw29.columns = ['equipment_number', 'notification']
 
-# vor_tactical_mpo_maintenance_status = vor_tactical_mpo_maintenance_status[['Highest-Level Equipm', 'PM Order']]
-# vor_tactical_mpo_maintenance_status.columns = ['equipment_number', 'pm_order_number']
+vor_tactical_mpo_maintenance_status = vor_tactical_mpo_maintenance_status[['Highest-Level Equipm', 'PM Order']]
+vor_tactical_mpo_maintenance_status.columns = ['equipment_number', 'pm_order_number']
 
-# mb25 = mb25[['Order', 'Material', 'Material Description']]
-# mb25.columns = ['pm_order_number', 'material_number', 'material_description']
+mb25 = mb25[['Order', 'Material', 'Material Description']]
+mb25.columns = ['pm_order_number', 'material_number', 'material_description']
 
-# mb52 = mb52[['External Long Material Number', 'Unrestructed']]
-# mb52.columns = ['material_number', 'quantity']
-# mb52['sum_of_quantity'] = mb52.groupby(['material_number'])['quantity'].transform(sum)
+mb52 = mb52[['External Long Material Number', 'Unrestricted']]
+mb52.columns = ['material_number', 'quantity']
+mb52['sum_of_quantity'] = mb52.groupby(['material_number'])['quantity'].transform(sum)
 # mb52 = mb52[mb52['sum_of_quantity' == 0]]
-# mb52 = mb52.drop_duplicates(subset='material_number').reset_index(drop=True)
+mb52 = mb52.drop_duplicates(subset='material_number').reset_index(drop=True)
 
 # merge dataframes, removing duplicate rows due to multiple notifications being open against a single piece of eqpt
 df1 = pd.merge(vor_tactical_mpo_disposition, ie36, left_on=['equipment_number', 'equipment_object_type'], \
@@ -119,18 +120,19 @@ df1 = pd.merge(vor_tactical_mpo_disposition, ie36, left_on=['equipment_number', 
 df1 = pd.merge(df1, zeiw29.drop_duplicates(subset=['equipment_number']), left_on='equipment_number', \
                right_on='equipment_number', how='left')
 
-# df2 = pd.merge(vor_tactical_mpo_maintenance_status, mb25, left_on='pm_order_number', right_on='pm_order_number', how='left')
-# df2 = pd.merge(df2, mb52, left_on='material_number', right_on='material_number', how='left')
-# df2['quantity'].replace('', np.nan, inplace=True)
-# df2.dropna(subset=['quantity'], inplace=True)
-# # TODO: are the next 2 lines of code necessary?
-# df2 = df2.drop_duplicates(subset=['equipment_numnber', 'material_number'])
-# df2 = df2.reset_index(drop=True)
+df2 = pd.merge(vor_tactical_mpo_maintenance_status, mb25, left_on='pm_order_number', right_on='pm_order_number', how='left')
+df2 = pd.merge(df2, mb52, left_on='material_number', right_on='material_number', how='left')
+df2['quantity'].replace('', np.nan, inplace=True)
+df2.dropna(subset=['quantity'], inplace=True)
 
-# df3 = pd.merge(df1, df2, left_on='equipment_number', right_on='equipment_number', how='left')
+# TODO: are the next 2 lines of code necessary?
+df2 = df2.drop_duplicates(subset=['equipment_number', 'material_number'])
+df2 = df2.reset_index(drop=True)
 
-# TODO: Temp variable assignment until zero-stock spares process refined
-df3 = df1
+df3 = pd.merge(df1, df2, left_on='equipment_number', right_on='equipment_number', how='left')
+
+# # TODO: Temp variable assignment until zero-stock spares process refined
+# df3 = df1
 
 # create 'disposal_status' column containing inferred disposal status
 df3['service_status'] = 'In Service'
@@ -148,7 +150,7 @@ df3['maintenance_plant2'] = df3['maintenance_plant1'].apply(str).map(maintenance
 # create 'disposition' column containing plant if eqpt is in service and disposal status otherwise
 df3['disposition'] = df3['maintenance_plant2']
 df3.loc[(df3['notification'] > 0), 'disposition'] = '202 WD'
-df3.loc[(df1['service_status'] == 'Disposal'), 'disposition'] = 'Disposal'
+df3.loc[(df3['service_status'] == 'Disposal'), 'disposition'] = 'Disposal'
 
 # group by weapon system ID, NP & DRF key fleet, platform and disposition, and calculate quantities
 df4 = pd.DataFrame({'quantity': df3.groupby(['weapon_system_id', 'np_drf_key_fleet', 'platform', \
