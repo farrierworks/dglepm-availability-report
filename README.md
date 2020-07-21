@@ -6,27 +6,27 @@
 
 ## Description
 
-The DGLEPM Availability Report is produced quarterly (or on demand), primarily in support of the equipment availability metric in the Defence Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of the Division (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops)) - over the past 11 months, DGLEPM Ops has witnessed an increase in demand for data products within ADM (Mat) and the CA.
+The DGLEPM Availability Report is produced quarterly (or on demand), primarily in support of the equipment availability metric in the Defence Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of the Division (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops)) - over the past 11 months, DGLEPM Ops has seen an increase in demand for data products within ADM (Mat) and the CA.
 
-The report includes 19 DRF "key" fleets:
-* Leo 2 AEV
-* Leo 2 ARV
-* Leo 2 MBT
-* LAV II Bison
-* LAV II Coyote
-* LAV III
-* LAV 6.0
-* M113A2
-* M113A3
-* M577A3
-* TLAV MT
-* M777
-* AHSVS
-* HLVW
-* LSVW
-* LUVW SMP
-* MLVW
-* MSVS SMP
+The report includes 18 platforms, which comprise the 9 "key" fleets identified in the DRF:
+1. Leo 2 AEV
+2. Leo 2 ARV
+3. Leo 2 MBT
+4. LAV II Bison
+5. LAV II Coyote
+6. LAV III
+7. LAV 6.0
+8. TAPV
+9. M113A3
+10. M577A3
+11. TLAV MT
+12. M777
+13. AHSVS
+14. HLVW
+15. LSVW
+16. LUVW SMP
+17. MLVW
+18. MSVS SMP
 
 In the context of DRF, equipment is said to be "unavailable" if it's:
 1. Grounded due to LMA issues
@@ -36,7 +36,7 @@ In the context of DRF, equipment is said to be "unavailable" if it's:
 3. At 202 WD or industry for 3rd/4th line repairs
    * Found by looking at open notifications in Plant 0001 (202 WD)
 
-The report production process was significantly shortened/simplified by Capt Southcott, DLEPS 3 (with input from Capt Yogendran, DLEPS 6), using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
+The report production process was significantly shortened/simplified by Capt Southcott, DLEPS 3, (with input from Capt Yogendran, DLEPS 6) using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
 
 To produce the report, follow the steps below.
 
@@ -86,7 +86,7 @@ To produce the report, follow the steps below.
 
 9. Copy and paste the 3 files from your USB drive to the following directory: `/home/{user}/Desktop/dglepm-availability-report/infiles/`.
 
-10. Open PyCharm and select the `dglepm-availability-report` project. In `dglepmAvailabilityReport.py`, change the `user` variable (line 8) to your standalone computer username. Click the green "Run" button in the top right-hand corner.
+10. Open PyCharm and select the `dglepm-availability-report` project. In `dglepmAvailabilityReport.py`, change the `user` variable (line 8) to your standalone computer username (e.g. `matthew`). Click the green _Run_ button in the top right-hand corner.
 
 11. Wait until the program finishes executing (approximately 10 seconds), and navigate to the following directory: `/home/{user}/Desktop/dglepm-availability-report/outfiles/`.
 
@@ -94,6 +94,7 @@ To produce the report, follow the steps below.
 
 ## Useful Links
 
-1. **DND 2018-19 Departmental Results Report**: https://www.canada.ca/content/dam/dnd-mdn/documents/departmental-results-report/2018-19-drr/english/DRR-2018-19_DND_English.pdf
+1. **DND Departmental Results Report**: https://www.canada.ca/en/department-national-defence/corporate/reports-publications/departmental-results-report.html
+1. **DND 2018-19 Departmental Results Report (most recent)**: https://www.canada.ca/content/dam/dnd-mdn/documents/departmental-results-report/2018-19-drr/english/DRR-2018-19_DND_English.pdf
 2. **GC Infobase**: https://www.tbs-sct.gc.ca/ems-sgd/edb-bdd/index-eng.html#start
 3. **GC Infobase Equipment Availability Single Indicator Details**: https://www.tbs-sct.gc.ca/ems-sgd/edb-bdd/index-eng.html#indicator/PROGRAM-dr18-5936
