@@ -1,7 +1,9 @@
+#' @export
 box <- function(...){
   shinydashboard::box(...)
 }
 
+#' @export
 panelTitle <- function(sideBarWidth) {
   dashboardHeader(
     title = "DGLEPM Availability Report",
@@ -9,12 +11,13 @@ panelTitle <- function(sideBarWidth) {
   )
 }
 
+#' @export
 panelSelectInput <- function(buttonWidth) {
   wellPanel(
     fileInput("bex_file", "Upload BeX file in csv format"),
     fileInput("IE36_file", "Upload IE36 file in csv format"),
     fileInput("depot_file", "Upload Depot file in csv format"),
-    checkboxGroupInput("userStatus","Select disposal user status", ""),
+    fileInput("lookup_file_platform", "Upload EOT-Vehicle file in csv format"),
     actionButton("create_pivot_table", "Create Report"),
     actionButton("plot_availability", "Plot Availability"),
     downloadButton("download_pivot", label = "Download Pivot Table"),
@@ -24,16 +27,19 @@ panelSelectInput <- function(buttonWidth) {
   )
 }
 
+#' @export
 pivot_table <- function() {
   tagList(
     h4("Availability Report"),
     box(
       width =  12,
-      dataTableOutput("table")
+      dataTableOutput("pivot_table")
     )
   )
 }
 
+
+#' @export
 availability_plot <- function() {
   tagList(
     h4("Availability Plot"),
@@ -41,4 +47,6 @@ availability_plot <- function() {
         plotOutput("plot"))
   )
 }
+
+
 
