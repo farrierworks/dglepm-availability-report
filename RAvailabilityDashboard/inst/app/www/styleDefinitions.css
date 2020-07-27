@@ -6,7 +6,7 @@
 }
 
 .skin-blue .main-header .logo:hover {
-  background-color: #b3d0ec
+  background-color: white
 }
 
 .skin-blue .main-header .navbar {
@@ -21,10 +21,10 @@
 }
 
 .skin-blue .main-sidebar {
-  background-color: #283233;
+  background-color: black;
 }
 .skin-blue .sidebar-menu>li.active>a, .skin-blue .sidebar-menu>li:hover>a {
-  background-color: #b3d0ec;
+  background-color: black;
 }
 
 .skin-blue .sidebar a {
@@ -50,7 +50,7 @@
 }
 
 .bg-black {
-  background-color: #b3d0ec!important;
+  background-color: white!important;
 }
 
 .info-box-text {
@@ -81,7 +81,7 @@ h4 {
 
 /*General*/
 .well {
-  background-color: #b3d0ec;  /*#283233*/
+  background-color: white;  /*#283233*/
 }
 
 .skin-blue .wrapper {

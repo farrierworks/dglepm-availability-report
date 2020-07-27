@@ -1,69 +1,53 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+library(shiny)
+library(shinydashboard)
+library(RAvailabilityDashboard)
+library(DT)
+library(data.table)
+library(readr)
+
+buttonWidth <- 220
+sideBarWidth <- 350
 
 
 # Define UI for application that draws a histogram
-library(shiny)
-library(data.table)
-library(reshape2)
-library(tibble)
-library(tidyverse)
-library(DT)
+ui <- dashboardPage(
+    skin = "red",
+    header = panelTitle(sideBarWidth),
 
-
-ui <- fluidPage(
-    tabsetPanel(
-        tabPanel("Pivot Table",
-                 sidebarLayout(
-                     sidebarPanel(
-                         fileInput("bex", "Upload BeX file in csv format"),
-                         fileInput("IE36", "Upload IE36 file in csv format"),
-                         fileInput("Depot", "Upload Depot file in csv format"),
-                         actionButton("create_pivot_table", "Create Report"),
-                         actionButton("plot_availability", "Plot Availability"),
-                         downloadButton("download_pivot", label = "Download Pivot Table"),
-                         downloadButton("download_CRTD", label = "Download CRTD")
-                     ),
-                     mainPanel(
-                         DTOutput("pivot_table"),
-                         br(),
-                         plotOutput("plot_availability")
-                     )
-                 )   
-        ),
-        
-        
-        # Error panel -------------------------------------------------------------
-        
-        tabPanel("Error", 
-                 
-                 # Error - sidebarPanel ----------------------------------------------------
-                 sidebarPanel(
-                     actionButton("INSV_disposed", "Fleet INSV with Disposed allocation code"),
-                     br(),
-                     actionButton("WO_allocation_code", "Fleet without allocation code"),
-                     downloadButton("download_full_report", label = "Download Full Report"),
-                     downloadButton("download_data_pivot", "Download Pivot Table")
-                 ),
-                 
-                 # Error - mainPanel -------------------------------------------------------
-                 mainPanel(
-                     dataTableOutput("table_INSV_disposed"),
-                     br(),
-                     dataTableOutput("table_INSV_disposed_FE"),
-                     dataTableOutput("table_temp"), #TODO: delete afterwards
-                     dataTableOutput("table_temp2"),
-                     textOutput("text_temp"),
-                     textOutput("text_temp2")
-                 )
-        )
+    sidebar = dashboardSidebar(
+        width = sideBarWidth,
+        shinyjs::useShinyjs(),
+        panelSelectInput(buttonWidth)
+    ),
+    body = dashboardBody(
+        tags$head(
+            tags$link(
+                rel = "stylesheet",
+                type = "text/css",
+                href = "styleDefinitions.css"
+            )),
+        div(class = "span", tabsetPanel(
+            id = "Reiter",
+            tabPanel("Input Variables", value = "tab1",
+                     fluidRow(
+                         column(6, checkboxGroupInput("userStatus","Select disposal user status", "")),
+                         column(6, checkboxGroupInput("disposalCodes","Select disposal allocation codes", ""))
+                     )),
+            tabPanel(
+                "Report", value = "tab2",
+                fluidRow(pivot_table()),
+                downloadButton("download_pivot_t", label = "Download Pivot Table")
+                #fluidRow(availability_plot())
+            ),
+            tabPanel("Raw Data", value = "tab3",
+                     h1(textOutput("bex_table_text")),
+                     dataTableOutput("bex_table_raw"),
+                     h1(textOutput("ie36_table_text")),
+                     dataTableOutput("IE36_table_raw"),
+                     h1(textOutput("depot_table_text")),
+                     dataTableOutput("depot_table_raw"),
+                     h1(textOutput("platform_table_text")),
+                     dataTableOutput("platform_table_raw"))
+        ))
     )
-    
 )
-

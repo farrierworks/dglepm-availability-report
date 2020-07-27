@@ -1,3 +1,3 @@
 #!/bin/bash
 
-Rscript test.R
+Rscript run_dashboard.R
