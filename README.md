@@ -78,19 +78,21 @@ To produce the report, follow the steps below.
 6. Disconnect your USB drive from your DWAN computer and connect it to your standalone computer (e.g. Dell XPS 13).
 
 7. On your standalone computer, create the following directories (folders):
-    * `/home/{user}/Desktop/dglepm-availability-report`
-    * `/home/{user}/Desktop/dglepm-availability-report/infiles`
-    * `/home/{user}/Desktop/dglepm-availability-report/outfiles`
+    * `/home/{username}/Desktop/dglepm-availability-report`
+    * `/home/{username}/Desktop/dglepm-availability-report/infiles`
+    * `/home/{username}/Desktop/dglepm-availability-report/outfiles`
   
-8. Clone the repository from GitHub to your standalone computer. Copy the URL to the `.git` file by clicking the _Code_ button, followed by the _Clipboard_ icon. Open Terminal (or Git Bash), navigate to the PycharmProjects directory (`/home/{user}/PycharmProjects/`), type `git clone ` (include a trailing space), paste the copied URL and press the _Enter_ key. You should now have a local copy of the repository.
+8. Clone the repository from GitHub to your standalone computer. Copy the URL to the `.git` file by clicking the _Code_ button, followed by the _Clipboard_ icon. Open Terminal (or Git Bash), and type `cd PycharmProjects` and press the _Enter_ key to navigate to the PycharmProjects directory (`/home/{username}/PycharmProjects/`). Type `git clone ` (include a trailing space), and paste the copied URL and press the _Enter_ key to clone the repository. You should now have a local copy of the repository.
 
-9. Copy and paste the 3 files from your USB drive to the following directory: `/home/{user}/Desktop/dglepm-availability-report/infiles/`.
+9. Copy and paste the 3 files from your USB drive to the following directory: `/home/{username}/Desktop/dglepm-availability-report/infiles/`.
 
-10. Open PyCharm and select the `dglepm-availability-report` project. In `dglepmAvailabilityReport.py`, change the `user` variable (line 8) to your standalone computer username (e.g. `matthew`). Click the green _Run_ button in the top right-hand corner.
+10. To run the script using PyCharm, open PyCharm and select the `dglepm-availability-report` project. In `dglepmAvailabilityReport.py`, change the `user` variable (line 8) to your standalone computer username (e.g. `matthew`). Click the green _Run_ button in the top right-hand corner.
 
-11. Wait until the program finishes executing (approximately 10 seconds), and navigate to the following directory: `/home/{user}/Desktop/dglepm-availability-report/outfiles/`.
+11. To run the script using Terminal, in the root directory of the project (`/home/{username}/PyCharmProjects/dglepm-availability-report`), type `python3 dglepmAvailabilityReport.py` and press the _Enter_ key.
 
-12. Copy and paste the report file to your USB drive.
+12. Wait until the program finishes executing (approximately 10 seconds), and navigate to the following directory: `/home/{user}/Desktop/dglepm-availability-report/outfiles/`.
+
+13. Copy and paste the report file to your USB drive.
 
 ## Useful Links
 
