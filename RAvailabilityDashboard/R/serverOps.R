@@ -45,12 +45,39 @@ join_ie36_depot <- function(ie36_bex, depot_data) {
   return(ie36_bex_depot)
 }
 
+#' @export
+pivot_table_calc <- function(pt){
+
+  pt[,c("EOT", "EQUIPMENTNUMBER", "ALLOCATIONCODE", "USERSTATUS") := NULL]
+  pt_DT <- pt[,lapply(.SD, sum, na.rm = TRUE), by = Platform]
+
+  pt_DT[, available_subtotal := rowSums(.SD), .SDcols = c("ARMY", "CJOC", "RCAF", "MILPERS",
+                                                          "VCDS", "NAVY", "ADM(MAT)")]
+  pt_DT[, unavailable_subtotal := rowSums(.SD), .SDcols = c("DRDC", "Depot", "DISPOSED")]
+
+  pt_DT[, Total := available_subtotal + unavailable_subtotal]
+
+  pt_DT[, Availability := round(available_subtotal/Total, 4)*100]
+
+
+    setcolorder(pt_DT, c("Platform", "Total" ,"Availability", "ARMY", "CJOC", "RCAF", "MILPERS",
+                  "VCDS", "NAVY", "ADM(MAT)", "available_subtotal", "DRDC", "Depot", "DISPOSED",
+                  "unavailable_subtotal", "NOTASSIGNED"))
+
+    setnames(pt_DT,c("available_subtotal", "unavailable_subtotal"), c("Available Subtotal", "Unavailable Subtotal"))
+    setorder(pt_DT)
+
+  return(pt_DT)
+}
+
 
 #' @export
-build_pivot_table <- function(bex_data, IE36_data, depot_data, disposal_codes, user_status) {
+build_pivot_table <- function(bex_data, IE36_data, depot_data, disposal_codes, user_status, lookup_table) {
   ie36_bex <- join_ie36_bex(bex_data, IE36_data)
   ie36_bex <- join_ie36_depot(ie36_bex, depot_data)
   pt <- add_disposed_column(disposal_codes, user_status, ie36_bex)
+  pt <- merge.data.table(pt, lookup_table, by = "EOT")
+  pt <- pivot_table_calc(pt)
 
   return(pt)
 }

@@ -7,11 +7,17 @@
 #    http://shiny.rstudio.com/
 #
 
-library("shiny")
-library("shinydashboard")
+#TODO: Download capability
+#TODO: Arrange raw data
+#TODO: seperate UI and Server
+#TODO: delete availability plot
+
+library(shiny)
+library(shinydashboard)
 library(RAvailabilityDashboard)
 library(DT)
 library(data.table)
+library(readr)
 
 buttonWidth <- 220
 sideBarWidth <- 350
@@ -37,19 +43,25 @@ ui <- dashboardPage(
         div(class = "span", tabsetPanel(
             id = "Reiter",
             tabPanel("Input Variables", value = "tab1",
-                     checkboxGroupInput("userStatus","Select disposal user status", ""),
-                     checkboxGroupInput("disposalCodes","Select disposal allocation codes", "")
-
-                     ),
+                     fluidRow(
+                       column(6, checkboxGroupInput("userStatus","Select disposal user status", "")),
+                       column(6, checkboxGroupInput("disposalCodes","Select disposal allocation codes", ""))
+                     )),
             tabPanel(
                 "Report", value = "tab2",
                 fluidRow(pivot_table()),
-                fluidRow(availability_plot())
+                downloadButton("download_pivot_t", label = "Download Pivot Table")
+                #fluidRow(availability_plot())
             ),
             tabPanel("Raw Data", value = "tab3",
-            dataTableOutput("IE36_table_raw"),
+            h1(textOutput("bex_table_text")),
             dataTableOutput("bex_table_raw"),
-            dataTableOutput("depot_table_raw"))
+            h1(textOutput("ie36_table_text")),
+            dataTableOutput("IE36_table_raw"),
+            h1(textOutput("depot_table_text")),
+            dataTableOutput("depot_table_raw"),
+            h1(textOutput("platform_table_text")),
+            dataTableOutput("platform_table_raw"))
         ))
     )
 )
@@ -77,6 +89,8 @@ server <- function(input, output, session) {
     get_lookup_file_platform <- reactive({
         req(input$lookup_file_platform)
         lookup_platform <- fread(input$lookup_file_platform$datapath)
+        setnames(lookup_platform, c("equipment_object_type","platform"), c("EOT", "Platform"))
+        return(lookup_platform)
 
     })
 
@@ -99,41 +113,69 @@ server <- function(input, output, session) {
         bex_data <- get_bex_data()
         IE36_data <- get_IE36_data()
         depot_data <- get_depot_data()
+        lookup_table <- get_lookup_file_platform()
 
         selected_disposed_user_status <- input$userStatus
         selected_disposed_codes <- input$disposalCodes
 
-        pt <- build_pivot_table(bex_data, IE36_data, depot_data, selected_disposed_codes, selected_disposed_user_status)
+        pt <- build_pivot_table(bex_data, IE36_data, depot_data, selected_disposed_codes, selected_disposed_user_status, lookup_table)
         return(pt)
     })
 
 
 
+    output$bex_table_text <- renderText({
+        print("Bex raw data")
+    })
 
+    output$ie36_table_text <- renderText({
+        print("IE36 raw data")
+    })
+
+    output$depot_table_text <- renderText({
+        print("Depot raw data")
+    })
+
+    output$platform_table_text <- renderText({
+        print("Platfor raw data")
+    })
 
 
     observeEvent(input$create_pivot_table, {
 
+        pt_DT <- create_pivot_tables()
+
 
         output$bex_table_raw <- renderDataTable({
-           datatable(get_bex_data())
-
+            datatable(get_bex_data())
         })
 
         #This concept can be applied to add dispoal column
         output$IE36_table_raw <- renderDataTable({
-            selected_disposal_codes <- input$disposalCodes
-            IE36_data <- get_IE36_data()
-            temp <- IE36_data[IE36_data$ALLOCATIONCODE %in% selected_disposal_codes,]
-            datatable(temp)
+          datatable(get_IE36_data())
         })
+
+
 
         output$depot_table_raw <- renderDataTable({
             datatable(get_depot_data())
         })
 
+        output$platform_table_raw <- renderDataTable({
+            datatable(get_lookup_file_platform())
+        })
+
+
+
         output$pivot_table <- renderDataTable({
-            datatable(create_pivot_tables())
+            datatable(pt_DT)
+        })
+
+
+        fileName <- paste0(Sys.Date(),"-Avalability_report.xlsx")
+
+        output$download_pivot_t <- downloadHandler(filename = fileName,content = function(file) {
+            write_excel_csv(pt_DT, file)
         })
     })
 
