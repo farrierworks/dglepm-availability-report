@@ -77,7 +77,7 @@ server <- function(input, output, session) {
     })
 
     output$platform_table_text <- renderText({
-        print("Platfor raw data")
+        print("Platform raw data")
     })
 
 
