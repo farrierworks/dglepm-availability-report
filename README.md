@@ -82,7 +82,7 @@ To produce the report, follow the steps below.
     * `/home/{username}/Desktop/dglepm-availability-report/infiles`
     * `/home/{username}/Desktop/dglepm-availability-report/outfiles`
   
-8. Clone the repository from GitHub to your standalone computer. Copy the URL to the `.git` file by clicking the _Code_ button, followed by the _Clipboard_ icon. Open Terminal (or Git Bash), and type `cd PycharmProjects` and press the _Enter_ key to navigate to the PycharmProjects directory (`/home/{username}/PycharmProjects/`). Type `git clone ` (include a trailing space), and paste the copied URL and press the _Enter_ key to clone the repository. You should now have a local copy of the repository.
+8. Clone the repository from GitHub to your standalone computer. Copy the URL to the `.git` file by clicking the _Code_ button, followed by the _Clipboard_ icon. Open Terminal (or Git Bash), type `cd PycharmProjects` and press the _Enter_ key to navigate to the PycharmProjects directory (`/home/{username}/PycharmProjects/`). Type `git clone ` (include a trailing space), paste the copied URL and press the _Enter_ key to clone the repository. You should now have a local copy of the repository.
 
 9. Copy and paste the 3 files from your USB drive to the following directory: `/home/{username}/Desktop/dglepm-availability-report/infiles/`.
 
