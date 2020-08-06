@@ -4,7 +4,6 @@ from datetime import datetime
 import os
 import pandas as pd
 import numpy as np
-# import seaborn as sns
 
 user = 'matthew'
 
@@ -76,9 +75,9 @@ if not os.path.exists(output_dir):
 vor_tactical_mpo_disposition = pd.read_excel(vor_tactical_mpo_disposition_filename, sheet_name='Sheet1')
 ie36 = pd.read_excel(ie36_filename, sheet_name='Sheet1')
 zeiw29 = pd.read_excel(zeiw29_filename, sheet_name='Sheet1')
-vor_tactical_mpo_maintenance_status = pd.read_excel(vor_tactical_mpo_maintenance_status_filename, sheet_name='Sheet1')
-mb25 = pd.read_excel(mb25_filename, sheet_name='Sheet1')
-mb52 = pd.read_excel(mb52_filename, sheet_name='Sheet1')
+# vor_tactical_mpo_maintenance_status = pd.read_excel(vor_tactical_mpo_maintenance_status_filename, sheet_name='Sheet1')
+# mb25 = pd.read_excel(mb25_filename, sheet_name='Sheet1')
+# mb52 = pd.read_excel(mb52_filename, sheet_name='Sheet1')
 
 # initialize list of disposal user status codes
 disposal_user_status_code_list = list_from_csv('/home/matthew/PycharmProjects/dglepm-availability-report/misc/disposal_user_status_code_list.csv')
@@ -102,17 +101,20 @@ ie36.columns = ['equipment_number', 'description', 'equipment_object_type', 'all
 zeiw29 = zeiw29[['Equipment', 'Notification']]
 zeiw29.columns = ['equipment_number', 'notification']
 
-vor_tactical_mpo_maintenance_status = vor_tactical_mpo_maintenance_status[['Highest-Level Equipm', 'PM Order']]
-vor_tactical_mpo_maintenance_status.columns = ['equipment_number', 'pm_order_number']
+# vor_tactical_mpo_maintenance_status = vor_tactical_mpo_maintenance_status[['Highest-Level Equipm', 'PM Order']]
+# vor_tactical_mpo_maintenance_status.columns = ['equipment_number', 'pm_order_number']
 
-mb25 = mb25[['Order', 'Material', 'Material Description']]
-mb25.columns = ['pm_order_number', 'material_number', 'material_description']
+# mb25 = mb25[['Order', 'Material', 'Material Description']]
+# mb25.columns = ['pm_order_number', 'material_number', 'material_description']
 
-mb52 = mb52[['External Long Material Number', 'Unrestricted']]
-mb52.columns = ['material_number', 'quantity']
-mb52['sum_of_quantity'] = mb52.groupby(['material_number'])['quantity'].transform(sum)
+# mb52 = mb52[['External Long Material Number', 'Unrestricted']]
+# mb52.columns = ['material_number', 'quantity']
+# mb52['sum_of_quantity'] = mb52.groupby(['material_number'])['quantity'].transform(sum)
+
+# TODO: Remove?
 # mb52 = mb52[mb52['sum_of_quantity' == 0]]
-mb52 = mb52.drop_duplicates(subset='material_number').reset_index(drop=True)
+
+# mb52 = mb52.drop_duplicates(subset='material_number').reset_index(drop=True)
 
 # merge dataframes, removing duplicate rows due to multiple notifications being open against a single piece of eqpt
 df1 = pd.merge(vor_tactical_mpo_disposition, ie36, left_on=['equipment_number', 'equipment_object_type'], \
@@ -120,19 +122,19 @@ df1 = pd.merge(vor_tactical_mpo_disposition, ie36, left_on=['equipment_number', 
 df1 = pd.merge(df1, zeiw29.drop_duplicates(subset=['equipment_number']), left_on='equipment_number', \
                right_on='equipment_number', how='left')
 
-df2 = pd.merge(vor_tactical_mpo_maintenance_status, mb25, left_on='pm_order_number', right_on='pm_order_number', how='left')
-df2 = pd.merge(df2, mb52, left_on='material_number', right_on='material_number', how='left')
-df2['quantity'].replace('', np.nan, inplace=True)
-df2.dropna(subset=['quantity'], inplace=True)
+# df2 = pd.merge(vor_tactical_mpo_maintenance_status, mb25, left_on='pm_order_number', right_on='pm_order_number', how='left')
+# df2 = pd.merge(df2, mb52, left_on='material_number', right_on='material_number', how='left')
+# df2['quantity'].replace('', np.nan, inplace=True)
+# df2.dropna(subset=['quantity'], inplace=True)
 
 # TODO: are the next 2 lines of code necessary?
-df2 = df2.drop_duplicates(subset=['equipment_number', 'material_number'])
-df2 = df2.reset_index(drop=True)
+# df2 = df2.drop_duplicates(subset=['equipment_number', 'material_number'])
+# df2 = df2.reset_index(drop=True)
 
-df3 = pd.merge(df1, df2, left_on='equipment_number', right_on='equipment_number', how='left')
+# df3 = pd.merge(df1, df2, left_on='equipment_number', right_on='equipment_number', how='left')
 
 # # TODO: Temp variable assignment until zero-stock spares process refined
-# df3 = df1
+df3 = df1
 
 # create 'disposal_status' column containing inferred disposal status
 df3['service_status'] = 'In Service'
@@ -140,6 +142,7 @@ df3.loc[(df3['allocation_code'].str.contains('M')) | \
         (df3['description'].str.contains('HARD TARGET')) | \
         (df3['user_info_statuses'].str.contains('|'.join(disposal_user_status_code_list))), 'service_status'] = \
     'Disposal'
+df3.loc[df3['allocation_code'] == 'HX', 'service_status'] = 'Reference'
 
 # map weapon system IDs, NP & DRF key fleets and platforms to equipment object types
 df3['weapon_system_id'] = df3['equipment_object_type'].map(weapon_system_id_dict)
@@ -151,6 +154,7 @@ df3['maintenance_plant2'] = df3['maintenance_plant1'].apply(str).map(maintenance
 df3['disposition'] = df3['maintenance_plant2']
 df3.loc[(df3['notification'] > 0), 'disposition'] = '202 WD'
 df3.loc[(df3['service_status'] == 'Disposal'), 'disposition'] = 'Disposal'
+df3.loc[(df3['service_status'] == 'Reference'), 'disposition'] = 'Reference'
 
 # group by weapon system ID, NP & DRF key fleet, platform and disposition, and calculate quantities
 df4 = pd.DataFrame({'quantity': df3.groupby(['weapon_system_id', 'np_drf_key_fleet', 'platform', \
@@ -160,12 +164,12 @@ df4 = pd.DataFrame({'quantity': df3.groupby(['weapon_system_id', 'np_drf_key_fle
 table1 = pd.pivot_table(df4, values='quantity', index=['weapon_system_id', 'np_drf_key_fleet', 'platform'], \
                         columns=['disposition'], fill_value=0).reset_index()
 table1.columns = ['weapon_system_id', 'np_drf_key_fleet', 'platform', '202_wd', 'adm_mat', 'ca', 'cjoc', \
-                  'disposal', 'mpc', 'rcaf', 'rcn', 'vcds']
+                  'disposal', 'mpc', 'rcaf', 'rcn', 'reference', 'vcds']
 
 # create columns containing # in inventory, # in service, # available, # unavailable, % available and % unavailable
 table1['inventory'] = table1.sum(axis=1)
 table1['in_service'] = table1['inventory'] - table1['disposal']
-table1['#_available'] = table1[['ca', 'cjoc', 'mpc', 'rcaf', 'rcn', 'vcds']].sum(axis=1)
+table1['#_available'] = table1[['ca', 'cjoc', 'mpc', 'rcaf', 'rcn', 'vcds', 'reference']].sum(axis=1)
 table1['#_unavailable'] = table1[['202_wd', 'adm_mat']].sum(axis=1)
 table1['%_available'] = (100 * table1['#_available'] / table1['in_service']).round(1)
 table1['%_unavailable'] = (100 * table1['#_unavailable'] / table1['in_service']).round(1)
@@ -176,7 +180,7 @@ table1['#_planned'] = (table1['%_planned'] * table1['in_service'] / 100).astype(
 
 # rearrange table1 columns
 table1 = table1[['weapon_system_id', 'np_drf_key_fleet', 'platform', 'inventory', 'disposal', 'in_service', \
-                 '%_planned', '#_planned', 'ca', 'cjoc', 'mpc', 'rcaf', 'rcn', 'vcds', '%_available', \
+                 '%_planned', '#_planned', 'ca', 'cjoc', 'mpc', 'rcaf', 'rcn', 'vcds', 'reference', '%_available', \
                  '#_available', '202_wd', 'adm_mat', '%_unavailable', '#_unavailable']]
 
 # create table2
@@ -186,7 +190,7 @@ table2 = table2[['np_drf_key_fleet', '#_available', '#_planned', 'in_service', '
 # rename table1 columns
 table1.columns = ['Weapon System ID', 'NP & DRF Key Fleet', 'Platform', 'Inventory [1]', 'Disposal [2]', \
                  'In Service [3]', '% Planned [4]', '# Planned [5]', 'CA', 'CJOC', 'MPC', 'RCAF', 'RCN', \
-                 'VCDS', '% Available [7]', '# Available [8]', '202 WD', 'ADM (Mat)', '% Unavailable [10]', \
+                 'VCDS', 'Reference', '% Available [7]', '# Available [8]', '202 WD', 'ADM (Mat)', '% Unavailable [10]', \
                  '# Unavailable [11]']
 
 # add rows containing column sum totals and average percentages
@@ -233,63 +237,63 @@ worksheet1.set_column('C:C', 16)
 worksheet1.set_column('D:F', 16, integer_fmt)
 worksheet1.set_column('G:G', 16, percentage_fmt)
 worksheet1.set_column('H:H', 16, integer_fmt)
-worksheet1.set_column('I:N', 12, integer_fmt)
-worksheet1.set_column('O:O', 16, percentage_fmt)
-worksheet1.set_column('P:P', 16, integer_fmt)
-worksheet1.set_column('Q:R', 12, integer_fmt)
-worksheet1.set_column('S:S', 16, percentage_fmt)
-worksheet1.set_column('T:T', 16, integer_fmt)
+worksheet1.set_column('I:O', 12, integer_fmt)
+worksheet1.set_column('P:P', 16, percentage_fmt)
+worksheet1.set_column('Q:Q', 16, integer_fmt)
+worksheet1.set_column('R:S', 12, integer_fmt)
+worksheet1.set_column('T:T', 16, percentage_fmt)
+worksheet1.set_column('U:U', 16, integer_fmt)
 # worksheet1.conditional_format('C5:V22', {'type': 'no_blanks', 'format': align_right_fmt})
 # worksheet1.conditional_format('H3:M20', {'type': 'no_blanks', 'format': bg_color_grey_fmt})
 # worksheet1.conditional_format('P3:R20', {'type': 'no_blanks', 'format': bg_color_grey_fmt})
 # worksheet1.conditional_format('U3:U20', {'type': 'no_blanks', 'format': bg_color_grey_fmt})
 # worksheet1.conditional_format('A21:V22', {'type': 'no_blanks', 'format': bg_color_grey_fmt})
-worksheet1.conditional_format('A3:T24', {'type': 'no_blanks', 'format': all_borders_fmt})
-worksheet1.conditional_format('I1:N1', {'type': 'no_blanks', 'format': all_borders_fmt})
-worksheet1.conditional_format('Q1:R1', {'type': 'no_blanks', 'format': all_borders_fmt})
+worksheet1.conditional_format('A3:U24', {'type': 'no_blanks', 'format': all_borders_fmt})
+worksheet1.conditional_format('I1:O1', {'type': 'no_blanks', 'format': all_borders_fmt})
+worksheet1.conditional_format('R1:S1', {'type': 'no_blanks', 'format': all_borders_fmt})
 # worksheet1.conditional_format('A5:B20', {'type': 'no_blanks', 'format': bold_align_center_fmt})
 worksheet1.write(0, 0, 'DGLEPM Availability Report', bold_fmt)
 worksheet1.write(1, 0, 'As of %s' % datestr2)
-worksheet1.conditional_format('O4', {'type': 'cell', 'criteria': '<', 'value': '$G$4', 'format': red_fmt})
-worksheet1.conditional_format('O5', {'type': 'cell', 'criteria': '<', 'value': '$G$5', 'format': red_fmt})
-worksheet1.conditional_format('O6', {'type': 'cell', 'criteria': '<', 'value': '$G$6', 'format': red_fmt})
-worksheet1.conditional_format('O7', {'type': 'cell', 'criteria': '<', 'value': '$G$7', 'format': red_fmt})
-worksheet1.conditional_format('O8', {'type': 'cell', 'criteria': '<', 'value': '$G$8', 'format': red_fmt})
-worksheet1.conditional_format('O9', {'type': 'cell', 'criteria': '<', 'value': '$G$9', 'format': red_fmt})
-worksheet1.conditional_format('O10', {'type': 'cell', 'criteria': '<', 'value': '$G$10', 'format': red_fmt})
-worksheet1.conditional_format('O11', {'type': 'cell', 'criteria': '<', 'value': '$G$11', 'format': red_fmt})
-worksheet1.conditional_format('O12', {'type': 'cell', 'criteria': '<', 'value': '$G$12', 'format': red_fmt})
-worksheet1.conditional_format('O13', {'type': 'cell', 'criteria': '<', 'value': '$G$13', 'format': red_fmt})
-worksheet1.conditional_format('O14', {'type': 'cell', 'criteria': '<', 'value': '$G$14', 'format': red_fmt})
-worksheet1.conditional_format('O15', {'type': 'cell', 'criteria': '<', 'value': '$G$15', 'format': red_fmt})
-worksheet1.conditional_format('O16', {'type': 'cell', 'criteria': '<', 'value': '$G$16', 'format': red_fmt})
-worksheet1.conditional_format('O17', {'type': 'cell', 'criteria': '<', 'value': '$G$17', 'format': red_fmt})
-worksheet1.conditional_format('O18', {'type': 'cell', 'criteria': '<', 'value': '$G$18', 'format': red_fmt})
-worksheet1.conditional_format('O19', {'type': 'cell', 'criteria': '<', 'value': '$G$19', 'format': red_fmt})
-worksheet1.conditional_format('O20', {'type': 'cell', 'criteria': '<', 'value': '$G$20', 'format': red_fmt})
-worksheet1.conditional_format('O21', {'type': 'cell', 'criteria': '<', 'value': '$G$21', 'format': red_fmt})
-worksheet1.conditional_format('O22', {'type': 'cell', 'criteria': '<', 'value': '$G$22', 'format': red_fmt})
-worksheet1.conditional_format('O24', {'type': 'cell', 'criteria': '<', 'value': '$G$24', 'format': red_fmt})
-worksheet1.conditional_format('P4', {'type': 'cell', 'criteria': '<', 'value': '$H$4', 'format': red_fmt})
-worksheet1.conditional_format('P5', {'type': 'cell', 'criteria': '<', 'value': '$H$5', 'format': red_fmt})
-worksheet1.conditional_format('P6', {'type': 'cell', 'criteria': '<', 'value': '$H$6', 'format': red_fmt})
-worksheet1.conditional_format('P7', {'type': 'cell', 'criteria': '<', 'value': '$H$7', 'format': red_fmt})
-worksheet1.conditional_format('P8', {'type': 'cell', 'criteria': '<', 'value': '$H$8', 'format': red_fmt})
-worksheet1.conditional_format('P9', {'type': 'cell', 'criteria': '<', 'value': '$H$9', 'format': red_fmt})
-worksheet1.conditional_format('P10', {'type': 'cell', 'criteria': '<', 'value': '$H$10', 'format': red_fmt})
-worksheet1.conditional_format('P11', {'type': 'cell', 'criteria': '<', 'value': '$H$11', 'format': red_fmt})
-worksheet1.conditional_format('P12', {'type': 'cell', 'criteria': '<', 'value': '$H$12', 'format': red_fmt})
-worksheet1.conditional_format('P13', {'type': 'cell', 'criteria': '<', 'value': '$H$13', 'format': red_fmt})
-worksheet1.conditional_format('P14', {'type': 'cell', 'criteria': '<', 'value': '$H$14', 'format': red_fmt})
-worksheet1.conditional_format('P15', {'type': 'cell', 'criteria': '<', 'value': '$H$15', 'format': red_fmt})
-worksheet1.conditional_format('P16', {'type': 'cell', 'criteria': '<', 'value': '$H$16', 'format': red_fmt})
-worksheet1.conditional_format('P17', {'type': 'cell', 'criteria': '<', 'value': '$H$17', 'format': red_fmt})
-worksheet1.conditional_format('P18', {'type': 'cell', 'criteria': '<', 'value': '$H$18', 'format': red_fmt})
-worksheet1.conditional_format('P19', {'type': 'cell', 'criteria': '<', 'value': '$H$19', 'format': red_fmt})
-worksheet1.conditional_format('P20', {'type': 'cell', 'criteria': '<', 'value': '$H$20', 'format': red_fmt})
-worksheet1.conditional_format('P21', {'type': 'cell', 'criteria': '<', 'value': '$H$21', 'format': red_fmt})
-worksheet1.conditional_format('P22', {'type': 'cell', 'criteria': '<', 'value': '$H$22', 'format': red_fmt})
-worksheet1.conditional_format('P23', {'type': 'cell', 'criteria': '<', 'value': '$H$23', 'format': red_fmt})
+worksheet1.conditional_format('P4', {'type': 'cell', 'criteria': '<', 'value': '$G$4', 'format': red_fmt})
+worksheet1.conditional_format('P5', {'type': 'cell', 'criteria': '<', 'value': '$G$5', 'format': red_fmt})
+worksheet1.conditional_format('P6', {'type': 'cell', 'criteria': '<', 'value': '$G$6', 'format': red_fmt})
+worksheet1.conditional_format('P7', {'type': 'cell', 'criteria': '<', 'value': '$G$7', 'format': red_fmt})
+worksheet1.conditional_format('P8', {'type': 'cell', 'criteria': '<', 'value': '$G$8', 'format': red_fmt})
+worksheet1.conditional_format('P9', {'type': 'cell', 'criteria': '<', 'value': '$G$9', 'format': red_fmt})
+worksheet1.conditional_format('P10', {'type': 'cell', 'criteria': '<', 'value': '$G$10', 'format': red_fmt})
+worksheet1.conditional_format('P11', {'type': 'cell', 'criteria': '<', 'value': '$G$11', 'format': red_fmt})
+worksheet1.conditional_format('P12', {'type': 'cell', 'criteria': '<', 'value': '$G$12', 'format': red_fmt})
+worksheet1.conditional_format('P13', {'type': 'cell', 'criteria': '<', 'value': '$G$13', 'format': red_fmt})
+worksheet1.conditional_format('P14', {'type': 'cell', 'criteria': '<', 'value': '$G$14', 'format': red_fmt})
+worksheet1.conditional_format('P15', {'type': 'cell', 'criteria': '<', 'value': '$G$15', 'format': red_fmt})
+worksheet1.conditional_format('P16', {'type': 'cell', 'criteria': '<', 'value': '$G$16', 'format': red_fmt})
+worksheet1.conditional_format('P17', {'type': 'cell', 'criteria': '<', 'value': '$G$17', 'format': red_fmt})
+worksheet1.conditional_format('P18', {'type': 'cell', 'criteria': '<', 'value': '$G$18', 'format': red_fmt})
+worksheet1.conditional_format('P19', {'type': 'cell', 'criteria': '<', 'value': '$G$19', 'format': red_fmt})
+worksheet1.conditional_format('P20', {'type': 'cell', 'criteria': '<', 'value': '$G$20', 'format': red_fmt})
+worksheet1.conditional_format('P21', {'type': 'cell', 'criteria': '<', 'value': '$G$21', 'format': red_fmt})
+worksheet1.conditional_format('P22', {'type': 'cell', 'criteria': '<', 'value': '$G$22', 'format': red_fmt})
+worksheet1.conditional_format('P24', {'type': 'cell', 'criteria': '<', 'value': '$G$24', 'format': red_fmt})
+worksheet1.conditional_format('Q4', {'type': 'cell', 'criteria': '<', 'value': '$H$4', 'format': red_fmt})
+worksheet1.conditional_format('Q5', {'type': 'cell', 'criteria': '<', 'value': '$H$5', 'format': red_fmt})
+worksheet1.conditional_format('Q6', {'type': 'cell', 'criteria': '<', 'value': '$H$6', 'format': red_fmt})
+worksheet1.conditional_format('Q7', {'type': 'cell', 'criteria': '<', 'value': '$H$7', 'format': red_fmt})
+worksheet1.conditional_format('Q8', {'type': 'cell', 'criteria': '<', 'value': '$H$8', 'format': red_fmt})
+worksheet1.conditional_format('Q9', {'type': 'cell', 'criteria': '<', 'value': '$H$9', 'format': red_fmt})
+worksheet1.conditional_format('Q10', {'type': 'cell', 'criteria': '<', 'value': '$H$10', 'format': red_fmt})
+worksheet1.conditional_format('Q11', {'type': 'cell', 'criteria': '<', 'value': '$H$11', 'format': red_fmt})
+worksheet1.conditional_format('Q12', {'type': 'cell', 'criteria': '<', 'value': '$H$12', 'format': red_fmt})
+worksheet1.conditional_format('Q13', {'type': 'cell', 'criteria': '<', 'value': '$H$13', 'format': red_fmt})
+worksheet1.conditional_format('Q14', {'type': 'cell', 'criteria': '<', 'value': '$H$14', 'format': red_fmt})
+worksheet1.conditional_format('Q15', {'type': 'cell', 'criteria': '<', 'value': '$H$15', 'format': red_fmt})
+worksheet1.conditional_format('Q16', {'type': 'cell', 'criteria': '<', 'value': '$H$16', 'format': red_fmt})
+worksheet1.conditional_format('Q17', {'type': 'cell', 'criteria': '<', 'value': '$H$17', 'format': red_fmt})
+worksheet1.conditional_format('Q18', {'type': 'cell', 'criteria': '<', 'value': '$H$18', 'format': red_fmt})
+worksheet1.conditional_format('Q19', {'type': 'cell', 'criteria': '<', 'value': '$H$19', 'format': red_fmt})
+worksheet1.conditional_format('Q20', {'type': 'cell', 'criteria': '<', 'value': '$H$20', 'format': red_fmt})
+worksheet1.conditional_format('Q21', {'type': 'cell', 'criteria': '<', 'value': '$H$21', 'format': red_fmt})
+worksheet1.conditional_format('Q22', {'type': 'cell', 'criteria': '<', 'value': '$H$22', 'format': red_fmt})
+worksheet1.conditional_format('Q23', {'type': 'cell', 'criteria': '<', 'value': '$H$23', 'format': red_fmt})
 worksheet1.write(22, 2, 'Sum', bold_align_center_fmt)
 worksheet1.write(23, 2, 'Average', bold_align_center_fmt)
 worksheet1.write(23, 3, '-')
@@ -303,14 +307,15 @@ worksheet1.write(23, 10, '-')
 worksheet1.write(23, 11, '-')
 worksheet1.write(23, 12, '-')
 worksheet1.write(23, 13, '-')
-worksheet1.write(22, 14, '-')
-worksheet1.write(23, 15, '-')
+worksheet1.write(23, 14, '-')
+worksheet1.write(22, 15, '-')
 worksheet1.write(23, 16, '-')
 worksheet1.write(23, 17, '-')
-worksheet1.write(22, 18, '-')
-worksheet1.write(23, 19, '-')
-worksheet1.merge_range('I2:N2', 'Available [6]', bold_align_center_fmt)
-worksheet1.merge_range('Q2:R2', 'Unavailable [9]', bold_align_center_fmt)
+worksheet1.write(23, 18, '-')
+worksheet1.write(22, 19, '-')
+worksheet1.write(23, 20, '-')
+worksheet1.merge_range('I2:O2', 'Available [6]', bold_align_center_fmt)
+worksheet1.merge_range('R2:S2', 'Unavailable [9]', bold_align_center_fmt)
 # worksheet1.conditional_format('A20', {'type': 'no_blanks', 'format': bold_align_center_fmt})
 worksheet1.write(24, 0, 'Notes:', underline_and_font_size_8_fmt)
 worksheet1.write(25, 0, '[1] Total eqpt holdings.', font_size_8_fmt)
