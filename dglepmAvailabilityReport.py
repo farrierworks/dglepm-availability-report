@@ -142,10 +142,7 @@ df3.loc[(df3['allocation_code'].str.contains('M')) | \
         (df3['description'].str.contains('HARD TARGET')) | \
         (df3['user_info_statuses'].str.contains('|'.join(disposal_user_status_code_list))), 'service_status'] = \
     'Disposal'
-
-
-
-df3.loc[df3['allocation_code'] == 'HX', 'service_status'] = 'Reference Vehicle'
+df3.loc[df3['allocation_code'] == 'HX', 'service_status'] = 'Reference'
 
 # map weapon system IDs, NP & DRF key fleets and platforms to equipment object types
 df3['weapon_system_id'] = df3['equipment_object_type'].map(weapon_system_id_dict)
@@ -157,7 +154,7 @@ df3['maintenance_plant2'] = df3['maintenance_plant1'].apply(str).map(maintenance
 df3['disposition'] = df3['maintenance_plant2']
 df3.loc[(df3['notification'] > 0), 'disposition'] = '202 WD'
 df3.loc[(df3['service_status'] == 'Disposal'), 'disposition'] = 'Disposal'
-df3.loc[(df3['service_status'] == 'Reference Vehicle'), 'disposition'] = 'Reference Vehicle'
+df3.loc[(df3['service_status'] == 'Reference'), 'disposition'] = 'Reference'
 
 # group by weapon system ID, NP & DRF key fleet, platform and disposition, and calculate quantities
 df4 = pd.DataFrame({'quantity': df3.groupby(['weapon_system_id', 'np_drf_key_fleet', 'platform', \
@@ -167,12 +164,12 @@ df4 = pd.DataFrame({'quantity': df3.groupby(['weapon_system_id', 'np_drf_key_fle
 table1 = pd.pivot_table(df4, values='quantity', index=['weapon_system_id', 'np_drf_key_fleet', 'platform'], \
                         columns=['disposition'], fill_value=0).reset_index()
 table1.columns = ['weapon_system_id', 'np_drf_key_fleet', 'platform', '202_wd', 'adm_mat', 'ca', 'cjoc', \
-                  'disposal', 'mpc', 'rcaf', 'rcn', 'refence_vehicles', 'vcds']
+                  'disposal', 'mpc', 'rcaf', 'rcn', 'reference', 'vcds']
 
 # create columns containing # in inventory, # in service, # available, # unavailable, % available and % unavailable
 table1['inventory'] = table1.sum(axis=1)
 table1['in_service'] = table1['inventory'] - table1['disposal']
-table1['#_available'] = table1[['ca', 'cjoc', 'mpc', 'rcaf', 'rcn', 'vcds', 'refence_vehicles']].sum(axis=1)
+table1['#_available'] = table1[['ca', 'cjoc', 'mpc', 'rcaf', 'rcn', 'vcds', 'reference']].sum(axis=1)
 table1['#_unavailable'] = table1[['202_wd', 'adm_mat']].sum(axis=1)
 table1['%_available'] = (100 * table1['#_available'] / table1['in_service']).round(1)
 table1['%_unavailable'] = (100 * table1['#_unavailable'] / table1['in_service']).round(1)
@@ -183,7 +180,7 @@ table1['#_planned'] = (table1['%_planned'] * table1['in_service'] / 100).astype(
 
 # rearrange table1 columns
 table1 = table1[['weapon_system_id', 'np_drf_key_fleet', 'platform', 'inventory', 'disposal', 'in_service', \
-                 '%_planned', '#_planned', 'ca', 'cjoc', 'mpc', 'rcaf', 'rcn', 'vcds', 'refence_vehicles', '%_available', \
+                 '%_planned', '#_planned', 'ca', 'cjoc', 'mpc', 'rcaf', 'rcn', 'vcds', 'reference', '%_available', \
                  '#_available', '202_wd', 'adm_mat', '%_unavailable', '#_unavailable']]
 
 # create table2
@@ -193,7 +190,7 @@ table2 = table2[['np_drf_key_fleet', '#_available', '#_planned', 'in_service', '
 # rename table1 columns
 table1.columns = ['Weapon System ID', 'NP & DRF Key Fleet', 'Platform', 'Inventory [1]', 'Disposal [2]', \
                  'In Service [3]', '% Planned [4]', '# Planned [5]', 'CA', 'CJOC', 'MPC', 'RCAF', 'RCN', \
-                 'VCDS', 'Refence Vehicles', '% Available [7]', '# Available [8]', '202 WD', 'ADM (Mat)', '% Unavailable [10]', \
+                 'VCDS', 'Reference', '% Available [7]', '# Available [8]', '202 WD', 'ADM (Mat)', '% Unavailable [10]', \
                  '# Unavailable [11]']
 
 # add rows containing column sum totals and average percentages
