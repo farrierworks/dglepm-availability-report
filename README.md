@@ -10,33 +10,33 @@ The Director General Land Equipment Program Management (DGLEPM) Availability Rep
 
 The report includes 18 platforms, which comprise the 8 "key" fleets identified in the DRF:
 1. Leopard II Tank
-    a. Leo 2 AEV
-    b. Leo 2 ARV
-    c. Leo 2 MBT
+    1. Leo 2 AEV
+    2. Leo 2 ARV
+    3. Leo 2 MBT
 2. Light Armoured Vehicle (LAV) Gen II
-    a. LAV II Bison
-    b. LAV II Coyote
+    1. LAV II Bison
+    2. LAV II Coyote
 3. Light Armoured Vehicle (LAV) Gen III
-    a. LAV III
+    1. LAV III
 4. Light Armoured Vehicle Upgrade (LAV Up)
-    a. LAV 6.0
+    1. LAV 6.0
 5. Light Armoured Vehicle, Tracked (TLAV)
-    a. M113A2
-    b. M113A3
-    c. M577A3
-    d. TLAV MT
+    1. M113A2
+    2. M113A3
+    3. M577A3
+    4. TLAV MT
 5. Tactical Armoured Patrol Vehicle (TAPV)
-    a. TAPV
+    1. TAPV
 6. Artillery Systems
-    a. M777
+    1. M777
 7. Standard Military Pattern (SMP), Heavy
-    a. AHSVS
-    b. HLVW
+    1. AHSVS
+    2. HLVW
 8. Standard Military Pattern (SMP), Light
-    a. LSVW
-    b. LUVW SMP
-    c. MLVW
-    d. MSVS SMP
+    1. LSVW
+    2. LUVW SMP
+    3. MLVW
+    4. MSVS SMP
 
 In the context of the DRF, equipment is said to be "unavailable" if it's:
 1. Grounded due to LMA issues
