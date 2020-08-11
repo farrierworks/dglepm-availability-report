@@ -6,7 +6,7 @@
 
 ## Description
 
-The DGLEPM Availability Report is produced quarterly (or on demand), primarily in support of the equipment availability metric in the Defence Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of DGLEPM (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops)). Over the past 11 months, there's been an increase in the demand for data products within ADM (Mat) and the CA.
+The Director General Land Equipment Program Management (DGLEPM) Availability Report is produced quarterly (or on demand), primarily in support of the land equipment availability key performance indicator in the Department of National Defence Departmental Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of DGLEPM (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops)). Over the past 11 months, there's been an increase in the demand for data products within ADM (Mat) and the CA.
 
 The report includes 18 platforms, which comprise the 9 "key" fleets identified in the DRF:
 1. Leo 2 AEV
@@ -36,7 +36,7 @@ In the context of the DRF, equipment is said to be "unavailable" if it's:
 3. At 202 WD/industry for 3rd/4th line repairs
    * Found by looking at open notifications in Plant 0001 (202 WD)
 
-The report production process was significantly shortened/simplified by Capt Southcott, DLEPS 3, (with input from Capt Yogendran, DLEPS 6) using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
+The report production process was significantly shortened/simplified by Capt Southcott, DLEPS 3, with input from Capt Yogendran, DLEPS 6, using Python (a popular interpreted scripting language). It uses Defence Resource Management Information System (DRMIS) data, which can be accessed by anyone with role Materiel Acquisition and Support Staff Officer.
 
 To produce the report, follow the steps below.
 
@@ -44,7 +44,7 @@ To produce the report, follow the steps below.
 
 1. Connect your USB drive to your DWAN computer.
 
-2. In DRMIS Production, run the following transaction with the specified parameters:
+2. In the DRMIS production environment, run the following transaction with the specified parameters:
 
     * **IE 36 - Display Vehicles**
         * _Class Type_: `002`
@@ -54,7 +54,7 @@ To produce the report, follow the steps below.
 
 3. Export the results to Excel, and save the file to your USB drive as `ie36.xlsx`.
 
-4. Again, in DRMIS Production, run the following transaction with the specified parameters:
+4. In the DRMIS production environment, run the following transaction with the specified parameters:
 
     * **ZEIW29 - List Edit Display Notification (UDF)**
         * _Notification status_: `Outstanding`, `Postponed` and `In process`
@@ -63,7 +63,7 @@ To produce the report, follow the steps below.
  
 5. Export the results to Excel, and save the file to your USB drive as `zeiw29.xlsx`.
 
-6. In DRMIS BEx Analyzer (DRMIS BW Production), run the following transactions with the specified parameters:
+6. Using DRMIS Business Explorer Analyzer, run the following transaction with the specified parameters:
  
     * **[ZPM_0EQUIPMENT_7028_Q01] VOR Tactical - MPO Disposition**
         * _Force Element Hierarchy_: `[3663] Minister of National Defence` and `[REST_H] Not Assigned Force Element`
@@ -86,7 +86,7 @@ To produce the report, follow the steps below.
     * `/home/{username}/Desktop/dglepm-availability-report/infiles`
     * `/home/{username}/Desktop/dglepm-availability-report/outfiles`
   
-10. Clone the repository from GitHub to your standalone computer. Copy the URL to the `.git` file by clicking the _Code_ button, followed by the _Clipboard_ icon. Open Terminal (or Git Bash), type `cd PycharmProjects` and press the _Enter_ key to navigate to the PycharmProjects directory (`/home/{username}/PycharmProjects/`). Type `git clone ` (include a trailing space), paste the copied URL and press the _Enter_ key to clone the repository. You should now have a local copy of the repository.
+10. Clone the repository from GitHub to your standalone computer. To do so, copy the URL to the `.git` file by clicking the _Code_ button, followed by the _Clipboard_ icon. Open Terminal (or Git Bash), type `cd PycharmProjects` and press the _Enter_ key to navigate to the PycharmProjects directory (`/home/{username}/PycharmProjects/`). Type `git clone ` (include a trailing space), paste the copied URL and press the _Enter_ key to clone the repository. You should now have a local copy of the repository.
 
 11. Copy and paste the 3 files from your USB drive to the following directory: `/home/{username}/Desktop/dglepm-availability-report/infiles/`.
 
