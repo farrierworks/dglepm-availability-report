@@ -6,7 +6,7 @@
 
 ## Description
 
-The DGLEPM Availability Report is produced quarterly (or on demand), primarily in support of the equipment availability metric in the Defence Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of the Division (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops)) - over the past 11 months, DGLEPM Ops has seen an increase in demand for data products within ADM (Mat) and the CA.
+The DGLEPM Availability Report is produced quarterly (or on demand), primarily in support of the equipment availability metric in the Defence Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of DGLEPM (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops)). Over the past 11 months, there's been an increase in the demand for data products within ADM (Mat) and the CA.
 
 The report includes 18 platforms, which comprise the 9 "key" fleets identified in the DRF:
 1. Leo 2 AEV
@@ -28,12 +28,12 @@ The report includes 18 platforms, which comprise the 9 "key" fleets identified i
 17. MLVW
 18. MSVS SMP
 
-In the context of DRF, equipment is said to be "unavailable" if it's:
+In the context of the DRF, equipment is said to be "unavailable" if it's:
 1. Grounded due to LMA issues
-   * DGLEPM Ops should know this intuitively due to its proximity to the LMA process
+   * DGLEPM Ops should know this intuitively due to its involvement in the LMA process
 2. Grounded awaiting zero-stock nationally-procured/centrally-managed repair parts
-   * An imperfect process was devised by Capt Southcott and the DRMIS PM SME, DLEPS 6, to find this by running a number of transactions in sequence (the process needs to be further refined)
-3. At 202 WD or industry for 3rd/4th line repairs
+   * Currently, no way of finding this without consulting EMTs exists (due to the fact that serviceability status is tied to work orders, not maintenance activities)
+3. At 202 WD/industry for 3rd/4th line repairs
    * Found by looking at open notifications in Plant 0001 (202 WD)
 
 The report production process was significantly shortened/simplified by Capt Southcott, DLEPS 3, (with input from Capt Yogendran, DLEPS 6) using Python (a popular interpreted programming language). It uses DRMIS data, which can be accessed by anyone with MA&S Staff Officer access.
@@ -44,7 +44,7 @@ To produce the report, follow the steps below.
 
 1. Connect your USB drive to your DWAN computer.
 
-2. In DRMIS Production, run the following transactions with the specified parameters:
+2. In DRMIS Production, run the following transaction with the specified parameters:
 
     * **IE 36 - Display Vehicles**
         * _Class Type_: `002`
@@ -52,14 +52,18 @@ To produce the report, follow the steps below.
         * _Vehicle Type_: `EV0309`, `EV0B54`, `EV0B68`, `EV0B80`, `EV0B82`, `EV0B94`, `EV0B97`, `EV0J06`, `EV0J07`, `EV0J08`, `EV0J31`, `EV0J35`, `EV0J36`, `EV0J37`, `EV0J38`, `EV0J44`, `EV0J46`, `EV0J81`, `EV0J82` and `EV0J83`
         * Once the transaction finishes running (may take several minutes), select all of the records, and click _Settings_, followed by _Show/Hide Classification_
 
+3. Export the results to Excel, and save the file to your USB drive as `ie36.xlsx`.
+
+4. Again, in DRMIS Production, run the following transaction with the specified parameters:
+
     * **ZEIW29 - List Edit Display Notification (UDF)**
         * _Notification status_: `Outstanding`, `Postponed` and `In process`
         * _Planning plant_: `0001`
         * Once the transaction finishes running, add the _Equipment_ column
  
-3. Export the results to Excel, and save the files to your USB drive as `ie36.xlsx` and `zeiw29.xlsx`, respectively.
+5. Export the results to Excel, and save the file to your USB drive as `zeiw29.xlsx`.
 
-4. In DRMIS BEx Analyzer (DRMIS BW Production), run the following transactions with the specified parameters:
+6. In DRMIS BEx Analyzer (DRMIS BW Production), run the following transactions with the specified parameters:
  
     * **[ZPM_0EQUIPMENT_7028_Q01] VOR Tactical - MPO Disposition**
         * _Force Element Hierarchy_: `[3663] Minister of National Defence` and `[REST_H] Not Assigned Force Element`
@@ -73,26 +77,26 @@ To produce the report, follow the steps below.
             * In the _Display Options_ tab:
                 * Uncheck _Suppress Repeated Key Values_
 
-5. Select all of the table headings and rows, copy and paste into a new Excel file, and save it to your USB drive as `vor_tactical_mpo_disposition.xlsx`.
+7. Select all of the table headings and rows, copy and paste into a new Excel file, and save it to your USB drive as `vor_tactical_mpo_disposition.xlsx`.
 
-6. Disconnect your USB drive from your DWAN computer and connect it to your standalone computer (e.g. Dell XPS 13).
+8. Disconnect your USB drive from your DWAN computer and connect it to your standalone computer (e.g. Dell XPS 13).
 
-7. On your standalone computer, create the following directories (folders):
+9. On your standalone computer, create the following directories (folders):
     * `/home/{username}/Desktop/dglepm-availability-report`
     * `/home/{username}/Desktop/dglepm-availability-report/infiles`
     * `/home/{username}/Desktop/dglepm-availability-report/outfiles`
   
-8. Clone the repository from GitHub to your standalone computer. Copy the URL to the `.git` file by clicking the _Code_ button, followed by the _Clipboard_ icon. Open Terminal (or Git Bash), type `cd PycharmProjects` and press the _Enter_ key to navigate to the PycharmProjects directory (`/home/{username}/PycharmProjects/`). Type `git clone ` (include a trailing space), paste the copied URL and press the _Enter_ key to clone the repository. You should now have a local copy of the repository.
+10. Clone the repository from GitHub to your standalone computer. Copy the URL to the `.git` file by clicking the _Code_ button, followed by the _Clipboard_ icon. Open Terminal (or Git Bash), type `cd PycharmProjects` and press the _Enter_ key to navigate to the PycharmProjects directory (`/home/{username}/PycharmProjects/`). Type `git clone ` (include a trailing space), paste the copied URL and press the _Enter_ key to clone the repository. You should now have a local copy of the repository.
 
-9. Copy and paste the 3 files from your USB drive to the following directory: `/home/{username}/Desktop/dglepm-availability-report/infiles/`.
+11. Copy and paste the 3 files from your USB drive to the following directory: `/home/{username}/Desktop/dglepm-availability-report/infiles/`.
 
-10. To run the script using PyCharm, open PyCharm and select the `dglepm-availability-report` project. In `dglepmAvailabilityReport.py`, change the `user` variable (line 8) to your standalone computer username (e.g. `matthew`). Click the green _Run_ button in the top right-hand corner.
+12. To run the script using PyCharm, open PyCharm and select the `dglepm-availability-report` project. In `dglepmAvailabilityReport.py`, change the `user` variable (line 8) to your standalone computer username (e.g. `matthew`). Click the green _Run_ button in the top right-hand corner.
 
-11. To run the script using Terminal, in Terminal's default directory (`/home/{username}`), type `python3 ./PyCharmProjects/dglepm-availability-report/dglepmAvailabilityReport.py` and press the _Enter_ key.
+13. To run the script using Terminal, in Terminal's default directory (`/home/{username}`), type `python3 ./PyCharmProjects/dglepm-availability-report/dglepmAvailabilityReport.py` and press the _Enter_ key.
 
-12. Wait until the program finishes executing (approximately 10 seconds), and navigate to the following directory: `/home/{user}/Desktop/dglepm-availability-report/outfiles/`.
+14. Wait until the program finishes executing (approximately 10 seconds), and navigate to the following directory: `/home/{user}/Desktop/dglepm-availability-report/outfiles/`.
 
-13. Copy and paste the report file to your USB drive.
+15. Copy and paste the report file to your USB drive.
 
 ## Useful Links
 
