@@ -8,7 +8,7 @@
 
 The Director General Land Equipment Program Management (DGLEPM) Availability Report is produced quarterly (or on demand), primarily in support of the land equipment availability key performance indicator in the Department of National Defence Departmental Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of DGLEPM (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops)). Over the past 11 months, there's been an increase in the demand for data products within ADM (Mat) and the CA.
 
-The report includes 18 platforms, which comprise the 8 "key" fleets identified in the DRF:
+The report includes 19 platforms, which comprise the 8 "key" fleets identified in the DRF:
 1. Leopard II Tank
     1. Leo 2 AEV
     2. Leo 2 ARV
