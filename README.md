@@ -8,25 +8,35 @@
 
 The Director General Land Equipment Program Management (DGLEPM) Availability Report is produced quarterly (or on demand), primarily in support of the land equipment availability key performance indicator in the Department of National Defence Departmental Results Framework/Report (DRF/DRR). Secondarily, it may be used by others within or outside of DGLEPM (e.g. 202 WD LMA Team Lead, ADM (Mat) J3 Ops)). Over the past 11 months, there's been an increase in the demand for data products within ADM (Mat) and the CA.
 
-The report includes 18 platforms, which comprise the 9 "key" fleets identified in the DRF:
-1. Leo 2 AEV
-2. Leo 2 ARV
-3. Leo 2 MBT
-4. LAV II Bison
-5. LAV II Coyote
-6. LAV III
-7. LAV 6.0
-8. TAPV
-9. M113A3
-10. M577A3
-11. TLAV MT
-12. M777
-13. AHSVS
-14. HLVW
-15. LSVW
-16. LUVW SMP
-17. MLVW
-18. MSVS SMP
+The report includes 18 platforms, which comprise the 8 "key" fleets identified in the DRF:
+1. Leopard II Tank
+    a. Leo 2 AEV
+    b. Leo 2 ARV
+    c. Leo 2 MBT
+2. Light Armoured Vehicle (LAV) Gen II
+    a. LAV II Bison
+    b. LAV II Coyote
+3. Light Armoured Vehicle (LAV) Gen III
+    a. LAV III
+4. Light Armoured Vehicle Upgrade (LAV Up)
+    a. LAV 6.0
+5. Light Armoured Vehicle, Tracked (TLAV)
+    a. M113A2
+    b. M113A3
+    c. M577A3
+    d. TLAV MT
+5. Tactical Armoured Patrol Vehicle (TAPV)
+    a. TAPV
+6. Artillery Systems
+    a. M777
+7. Standard Military Pattern (SMP), Heavy
+    a. AHSVS
+    b. HLVW
+8. Standard Military Pattern (SMP), Light
+    a. LSVW
+    b. LUVW SMP
+    c. MLVW
+    d. MSVS SMP
 
 In the context of the DRF, equipment is said to be "unavailable" if it's:
 1. Grounded due to LMA issues
