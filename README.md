@@ -88,7 +88,7 @@ To produce the report, follow the steps below.
 
 10. To run the script using PyCharm, open PyCharm and select the `dglepm-availability-report` project. In `dglepmAvailabilityReport.py`, change the `user` variable (line 8) to your standalone computer username (e.g. `matthew`). Click the green _Run_ button in the top right-hand corner.
 
-11. To run the script using Terminal, in the root directory of the project (`/home/{username}/PyCharmProjects/dglepm-availability-report`), type `python3 dglepmAvailabilityReport.py` and press the _Enter_ key.
+11. To run the script using Terminal, in Terminal's default directory (`/home/{username}`), type `python3 ./PyCharmProjects/dglepm-availability-report/dglepmAvailabilityReport.py` and press the _Enter_ key.
 
 12. Wait until the program finishes executing (approximately 10 seconds), and navigate to the following directory: `/home/{user}/Desktop/dglepm-availability-report/outfiles/`.
 
